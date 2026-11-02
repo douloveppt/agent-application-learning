@@ -36,7 +36,6 @@ class PublisherTests(unittest.TestCase):
             "source_dir": str(self.source), "css_source": str(self.css),
             "repo_dir": str(self.repo), "state_dir": str(self.state),
             "remote_url": str(self.remote), "branch": "main",
-            "poll_seconds": 0.01, "debounce_seconds": 0, "retry_seconds": 0.01,
         }))
         self.cfg = sync.Config.read(self.config_path)
 

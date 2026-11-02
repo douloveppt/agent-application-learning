@@ -16,11 +16,9 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
-import signal
 import subprocess
 import sys
 import tempfile
-import time
 import unicodedata
 from urllib.parse import quote, urlsplit
 
@@ -82,9 +80,6 @@ class Config:
     remote_url: str
     state_dir: Path
     branch: str = "main"
-    poll_seconds: float = 3
-    debounce_seconds: float = 15
-    retry_seconds: float = 60
 
     @classmethod
     def read(cls, path: Path) -> "Config":
@@ -115,11 +110,6 @@ class Config:
             raise SyncError("Operational state must remain outside the public repository")
         if path.resolve() == result.repo_dir or result.repo_dir in path.resolve().parents:
             raise SyncError("Local configuration must remain outside the public repository")
-        for value in (result.poll_seconds, result.retry_seconds):
-            if not isinstance(value, (int, float)) or value <= 0:
-                raise SyncError("Polling and retry intervals must be positive")
-        if not isinstance(result.debounce_seconds, (int, float)) or result.debounce_seconds < 0:
-            raise SyncError("Debounce interval must be nonnegative")
         return result
 
 
@@ -461,65 +451,11 @@ def sync_once(cfg: Config, snapshot: Snapshot | None = None) -> dict:
         raise
 
 
-def dirty_fingerprint(cfg: Config) -> str:
-    # Include edits to already-tracked project tooling without staging new files.
-    result = git(cfg, "diff", "HEAD", "--name-only", "-z", check=False)
-    digest = hashlib.sha256()
-    for name in sorted(names_from_git(result)):
-        path = cfg.repo_dir / name
-        digest.update(name.encode())
-        if path.is_file() and not path.is_symlink():
-            digest.update(path.read_bytes())
-        else:
-            digest.update(b"missing-or-symlink")
-    return digest.hexdigest()
-
-
-def watch(cfg: Config) -> None:
-    stopped = False
-    def stop(*_):
-        nonlocal stopped
-        stopped = True
-    signal.signal(signal.SIGTERM, stop)
-    signal.signal(signal.SIGINT, stop)
-    seen = None
-    changed_at = time.monotonic()
-    next_retry = 0.0
-    last_error = None
-    completed = None
-    save_status(cfg, watcher_pid=os.getpid(), watcher_started=now())
-    while not stopped:
-        try:
-            snapshot = capture(cfg)
-            fingerprint = snapshot.digest + dirty_fingerprint(cfg)
-            tick = time.monotonic()
-            if fingerprint != seen:
-                seen = fingerprint
-                changed_at = tick
-            if tick >= next_retry and tick - changed_at >= cfg.debounce_seconds and (fingerprint != completed or last_error is not None):
-                sync_once(cfg, snapshot)
-                completed = snapshot.digest + dirty_fingerprint(cfg)
-                seen = completed
-                last_error = None
-                next_retry = 0
-                print(f"{now()} publication synchronized", flush=True)
-        except SyncError as exc:
-            message = str(exc)
-            save_status(cfg, status="error", error=message, last_error=now())
-            if message != last_error:
-                print(f"{now()} {message}", file=sys.stderr, flush=True)
-            last_error = message
-            next_retry = time.monotonic() + cfg.retry_seconds
-        time.sleep(cfg.poll_seconds)
-    save_status(cfg, watcher_pid=None, watcher_stopped=now())
-
-
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--once", action="store_true")
-    mode.add_argument("--watch", action="store_true")
     mode.add_argument("--export-only", action="store_true")
     mode.add_argument("--status", action="store_true")
     args = parser.parse_args(argv)
@@ -529,9 +465,7 @@ def main(argv=None) -> int:
             print(json.dumps(load_json(cfg.state_dir / "status.json"), ensure_ascii=False, indent=2))
             return 0
         with publisher_lock(cfg):
-            if args.watch:
-                watch(cfg)
-            elif args.export_only:
+            if args.export_only:
                 changed = export(cfg)
                 print(json.dumps({"exported_files": changed}, ensure_ascii=False))
             else:
