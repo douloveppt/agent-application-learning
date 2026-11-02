@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "企业 RAG：从问题到可追溯回答",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      560
+    ]
+  },
+  "nodes": [
+    {
+      "id": "trusted-scope",
+      "type": "security",
+      "label": "可信身份与范围",
+      "sublabel": "租户与授权来自服务端",
+      "row": 0,
+      "stage": 0,
+      "width": 144,
+      "height": 76
+    },
+    {
+      "id": "query-contract",
+      "type": "backend",
+      "label": "查询理解",
+      "sublabel": "保留错误码和适用条件",
+      "row": 0,
+      "stage": 1,
+      "width": 158,
+      "height": 76
+    },
+    {
+      "id": "hybrid-recall",
+      "type": "database",
+      "label": "混合召回",
+      "sublabel": "BM25 与向量各取候选",
+      "row": 0,
+      "stage": 2,
+      "width": 158,
+      "height": 76
+    },
+    {
+      "id": "rank-fusion",
+      "type": "backend",
+      "label": "排名融合",
+      "sublabel": "按候选身份去重与 RRF",
+      "row": 0,
+      "stage": 3,
+      "width": 158,
+      "height": 76
+    },
+    {
+      "id": "authority-check",
+      "type": "security",
+      "label": "权威复核",
+      "sublabel": "权限、版本与删除状态",
+      "row": 0,
+      "stage": 4,
+      "width": 158,
+      "height": 76
+    },
+    {
+      "id": "candidate-rerank",
+      "type": "backend",
+      "label": "候选重排",
+      "sublabel": "只处理获准的有效证据",
+      "row": 1,
+      "stage": 4,
+      "width": 158,
+      "height": 76,
+      "yOffset": 100
+    },
+    {
+      "id": "evidence-pack",
+      "type": "backend",
+      "label": "证据装配",
+      "sublabel": "补全条件后再次复核",
+      "row": 1,
+      "stage": 3,
+      "width": 158,
+      "height": 76,
+      "yOffset": 100
+    },
+    {
+      "id": "grounded-answer",
+      "type": "cloud",
+      "label": "依据证据生成",
+      "sublabel": "逐项关联证据编号",
+      "row": 1,
+      "stage": 2,
+      "width": 158,
+      "height": 76,
+      "yOffset": 100
+    },
+    {
+      "id": "citation-check",
+      "type": "security",
+      "label": "核验与披露",
+      "sublabel": "定位有效性与结论支持",
+      "row": 1,
+      "stage": 1,
+      "width": 158,
+      "height": 76,
+      "yOffset": 100
+    },
+    {
+      "id": "answer-delivery",
+      "type": "frontend",
+      "label": "回答与来源",
+      "sublabel": "重要步骤可回到原文",
+      "row": 1,
+      "stage": 0,
+      "width": 144,
+      "height": 76,
+      "yOffset": 100
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "条件缺失",
+      "items": [
+        "缺少操作系统或版本时，先澄清关键条件。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "证据不足或冲突",
+      "items": [
+        "停止生成操作建议，说明限制或转交人工。"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "依赖故障",
+      "items": [
+        "区分超时与零结果，按显式策略有限降级。"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "入口与交付"
+    },
+    {
+      "label": "问题与核验"
+    },
+    {
+      "label": "召回与生成"
+    },
+    {
+      "label": "融合与装配"
+    },
+    {
+      "label": "授权与重排"
+    }
+  ],
+  "flows": [
+    {
+      "id": "step-1",
+      "from": "trusted-scope",
+      "to": "query-contract",
+      "label": "可信范围",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-2",
+      "from": "query-contract",
+      "to": "hybrid-recall",
+      "label": "查询契约",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-3",
+      "from": "hybrid-recall",
+      "to": "rank-fusion",
+      "label": "候选集合",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-4",
+      "from": "rank-fusion",
+      "to": "authority-check",
+      "label": "候选身份",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-5",
+      "from": "authority-check",
+      "to": "candidate-rerank",
+      "label": "获准证据",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-6",
+      "from": "candidate-rerank",
+      "to": "evidence-pack",
+      "label": "排序结果",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-7",
+      "from": "evidence-pack",
+      "to": "grounded-answer",
+      "label": "证据包",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-8",
+      "from": "grounded-answer",
+      "to": "citation-check",
+      "label": "草稿与引用",
+      "variant": "emphasis"
+    },
+    {
+      "id": "step-9",
+      "from": "citation-check",
+      "to": "answer-delivery",
+      "label": "已核验回答",
+      "variant": "emphasis"
+    }
+  ]
+}

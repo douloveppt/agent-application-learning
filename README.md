@@ -14,6 +14,7 @@
 - **维护任务指令**：[第五章 Prompt 工程实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch05-prompt-engineering)，验证请求装配、版本摘要和人工回放中的改善与退化。
 - **组装本轮上下文**：[第六章 Context Engineering 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch06-context-engineering)，观察权限与时效过滤、必需项保留、原子分组和字节预算选择。
 - **管理跨会话记忆**：[第七章 Memory 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch07-memory)，观察幂等写入、版本纠正、用户隔离、到期失效与删除后的旧索引拒绝。
+- **取得合格证据**：[第九章 Retrieval 与 RAG 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch09-retrieval-rag)，观察 BM25、排名融合、权限与版本复核、完整证据组和引用编号校验。
 
 ## 两种阅读方式
 
@@ -43,7 +44,7 @@
 | [06 Context Engineering](./06%20Context%20Engineering.md) | 来源与权限、完整请求预算、选择与压缩、证据血缘及失效传播 |
 | [07 Memory 记忆系统](./07%20Memory%20%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F.md) | 记忆准入、来源与范围、并发纠正、检索复核和删除防复活 |
 | [08 数据接入与知识加工](./08%20%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8A%A0%E5%B7%A5.md) | 多格式解析、保真分块、增量加工、制品发布与删除同步 |
-| [09 Retrieval 与 RAG](./09%20Retrieval%20%E4%B8%8E%20RAG.md) | 证据检索、重排、引用与回答 |
+| [09 Retrieval 与 RAG](./09%20Retrieval%20%E4%B8%8E%20RAG.md) | 全文与向量、混合召回、权限版本复核、证据引用与分层评测 |
 
 ### C · 决策与编排
 
