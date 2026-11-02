@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "规划、路由与 Workflow",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      740,
+      470
+    ]
+  },
+  "lanes": [
+    {
+      "id": "design",
+      "label": "任务与路由"
+    },
+    {
+      "id": "planning",
+      "label": "候选计划与程序准入"
+    },
+    {
+      "id": "execute",
+      "label": "只读执行、验收与有限恢复"
+    }
+  ],
+  "mainPath": [
+    "contract",
+    "route_gate",
+    "plan",
+    "plan_gate",
+    "dispatch",
+    "delivery"
+  ],
+  "nodes": [
+    {
+      "id": "contract",
+      "lane": "design",
+      "col": 0,
+      "type": "frontend",
+      "label": "可信任务合同",
+      "sublabel": "身份、范围与完成标准"
+    },
+    {
+      "id": "route_gate",
+      "lane": "design",
+      "col": 1,
+      "type": "security",
+      "label": "路由候选准入",
+      "sublabel": "允许类别与必要信息"
+    },
+    {
+      "id": "plan",
+      "lane": "planning",
+      "col": 2,
+      "type": "backend",
+      "label": "生成候选计划",
+      "sublabel": "步骤、输入与依赖"
+    },
+    {
+      "id": "plan_gate",
+      "lane": "planning",
+      "col": 3,
+      "type": "security",
+      "label": "计划校验",
+      "sublabel": "图、数据、权限与预算"
+    },
+    {
+      "id": "dispatch",
+      "lane": "execute",
+      "col": 4,
+      "type": "messagebus",
+      "label": "按依赖派发",
+      "sublabel": "AND 前驱均有效才就绪"
+    },
+    {
+      "id": "delivery",
+      "lane": "execute",
+      "col": 5,
+      "type": "frontend",
+      "label": "校验与交付",
+      "sublabel": "两项有效才完整成功"
+    },
+    {
+      "id": "wait",
+      "lane": "execute",
+      "col": 0,
+      "type": "external",
+      "label": "等待补充",
+      "sublabel": "缺信息时暂停派发"
+    },
+    {
+      "id": "repair",
+      "lane": "execute",
+      "col": 1,
+      "type": "backend",
+      "label": "有限恢复决策",
+      "sublabel": "调整或交付部分结果"
+    }
+  ],
+  "edges": [
+    {
+      "id": "start-route",
+      "from": "contract",
+      "to": "route_gate",
+      "role": "main",
+      "route": "straight"
+    },
+    {
+      "id": "route-plan",
+      "from": "route_gate",
+      "to": "plan",
+      "role": "main"
+    },
+    {
+      "id": "plan-check",
+      "from": "plan",
+      "to": "plan_gate",
+      "role": "main"
+    },
+    {
+      "id": "check-dispatch",
+      "from": "plan_gate",
+      "to": "dispatch",
+      "label": "校验通过",
+      "variant": "security",
+      "role": "main",
+      "labelAt": [
+        485,
+        304
+      ]
+    },
+    {
+      "id": "dispatch-deliver",
+      "from": "dispatch",
+      "to": "delivery",
+      "label": "观察结果",
+      "variant": "emphasis",
+      "role": "main",
+      "labelAt": [
+        563,
+        324
+      ]
+    },
+    {
+      "id": "route-wait",
+      "from": "route_gate",
+      "to": "wait",
+      "label": "信息不足",
+      "variant": "security",
+      "role": "branch",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "delivery-repair",
+      "from": "delivery",
+      "to": "repair",
+      "label": "确定失败",
+      "variant": "security",
+      "role": "error",
+      "route": "bottom-channel"
+    },
+    {
+      "id": "repair-check",
+      "from": "repair",
+      "to": "plan_gate",
+      "label": "预算内调整后重验",
+      "variant": "dashed",
+      "role": "return",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          360,
+          367
+        ],
+        [
+          360,
+          243
+        ]
+      ],
+      "labelAt": [
+        325,
+        314
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "模型提议，程序决定",
+      "items": [
+        "路由标签和计划都是候选；通过校验才可派发。",
+        "图示为只读编排教学设计，不代表生产系统能力。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "独立分支，明确汇合",
+      "items": [
+        "知识查询与本人工单查询可独立执行。",
+        "最终合并要求二者有效；失败只阻塞受影响后继。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "调整有界，缺口可见",
+      "items": [
+        "重试、重规划共用剩余时间、次数与费用预算。",
+        "部分结果不能标记完整成功；未知写入另走核实。"
+      ]
+    }
+  ]
+}
