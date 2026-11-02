@@ -9,6 +9,7 @@
 - **安排学习先后**：[学习路线与实战](./90%20%E5%AD%A6%E4%B9%A0%E8%B7%AF%E7%BA%BF%E4%B8%8E%E5%AE%9E%E6%88%98.md)，选择应用主线或岗位方向。
 - **直接查知识**：从下方章节目录进入，或用 [概念辨析与自测](./91%20%E6%A6%82%E5%BF%B5%E8%BE%A8%E6%9E%90%E4%B8%8E%E8%87%AA%E6%B5%8B.md) 检查薄弱点。
 - **查看进度和资料**：[学习工作台与资料](./92%20%E5%AD%A6%E4%B9%A0%E5%B7%A5%E4%BD%9C%E5%8F%B0%E4%B8%8E%E8%B5%84%E6%96%99.md)，包含验收查询、分类依据和官方来源。
+- **动手练习**：[第二章 HTTP、SQLite 与异步实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch02-system-basics)，通过实际请求和失败案例理解系统基础。
 
 ## 两种阅读方式
 

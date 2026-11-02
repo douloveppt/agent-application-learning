@@ -252,6 +252,25 @@ def public_navigation(text: str) -> str:
     return re.sub(r"^> \[!agent-chapter-nav\]\n((?:>[^\n]*(?:\n|$))+)", replace, text, flags=re.M)
 
 
+def has_page_heading(text: str) -> bool:
+    """Recognize an H1 outside fenced examples, where # may be a comment."""
+    fence_char = ""
+    fence_length = 0
+    for line in text.splitlines():
+        if fence_char:
+            if re.fullmatch(r" {0,3}" + re.escape(fence_char) +
+                            "{" + str(fence_length) + r",}[ \t]*", line):
+                fence_char = ""
+            continue
+        fence = re.match(r" {0,3}(`{3,}|~{3,})", line)
+        if fence:
+            fence_char = fence[1][0]
+            fence_length = len(fence[1])
+        elif re.match(r"^# ", line):
+            return True
+    return False
+
+
 def render(snapshot: Snapshot) -> tuple[dict[str, bytes], int]:
     output = {}
     unknown = 0
@@ -282,7 +301,7 @@ def render(snapshot: Snapshot) -> tuple[dict[str, bytes], int]:
             end = text.find("\n---\n", 3) + 5 if text.startswith("---\n") else 0
             if end == 4:
                 raise SyncError(f"Unterminated frontmatter: {name}")
-            if not re.search(r"^# ", text[end:], re.M):
+            if not has_page_heading(text[end:]):
                 text = text[:end] + "\n# " + Path(name).stem + "\n\n" + text[end:].lstrip("\n")
         output[name] = text.encode("utf-8")
     output[CSS_TARGET] = snapshot.css
