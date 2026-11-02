@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Agent 从持久记录中安全恢复",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      350
+    ]
+  },
+  "lanes": [
+    {
+      "id": "resume",
+      "label": "恢复与分流"
+    },
+    {
+      "id": "actions",
+      "label": "执行或核实"
+    }
+  ],
+  "mainPath": [
+    "claim",
+    "restore",
+    "ledger",
+    "commit"
+  ],
+  "nodes": [
+    {
+      "id": "claim",
+      "lane": "resume",
+      "col": 0,
+      "type": "backend",
+      "label": "唤醒并争抢",
+      "sublabel": "租约与版本 CAS"
+    },
+    {
+      "id": "restore",
+      "lane": "resume",
+      "col": 2,
+      "type": "security",
+      "label": "加载检查点",
+      "sublabel": "版本 · 权限 · 取消",
+      "width": 110
+    },
+    {
+      "id": "ledger",
+      "lane": "resume",
+      "col": 3,
+      "type": "database",
+      "label": "读取动作账本",
+      "sublabel": "按持久证据分流"
+    },
+    {
+      "id": "commit",
+      "lane": "resume",
+      "col": 5,
+      "type": "database",
+      "label": "提交恢复进度",
+      "sublabel": "结果 · 下一步 · 唤醒"
+    },
+    {
+      "id": "admit",
+      "lane": "actions",
+      "col": 3,
+      "type": "security",
+      "label": "重新检查准入",
+      "sublabel": "授权与请求未变"
+    },
+    {
+      "id": "execute",
+      "lane": "actions",
+      "col": 5,
+      "type": "external",
+      "label": "记录意图并执行",
+      "sublabel": "按稳定动作合同派发"
+    },
+    {
+      "id": "reconcile",
+      "lane": "actions",
+      "col": 0,
+      "type": "external",
+      "label": "查询外部事实",
+      "sublabel": "UNKNOWN 禁止重发"
+    },
+    {
+      "id": "resolved",
+      "lane": "actions",
+      "col": 2,
+      "type": "database",
+      "label": "保存核实结论",
+      "sublabel": "按证据唤醒或保持暂停"
+    }
+  ],
+  "edges": [
+    {
+      "id": "claim-restore",
+      "from": "claim",
+      "to": "restore"
+    },
+    {
+      "id": "restore-ledger",
+      "from": "restore",
+      "to": "ledger"
+    },
+    {
+      "id": "confirmed-commit",
+      "from": "ledger",
+      "to": "commit",
+      "label": "复用成功结果",
+      "variant": "emphasis"
+    },
+    {
+      "id": "undispatched-admit",
+      "from": "ledger",
+      "to": "admit",
+      "label": "未派发",
+      "variant": "security",
+      "role": "branch",
+      "labelAt": [
+        460,
+        199
+      ]
+    },
+    {
+      "id": "admitted-execute",
+      "from": "admit",
+      "to": "execute",
+      "label": "准入通过",
+      "variant": "security"
+    },
+    {
+      "id": "execute-commit",
+      "from": "execute",
+      "to": "commit",
+      "label": "确定结果",
+      "role": "return"
+    },
+    {
+      "id": "uncertain-reconcile",
+      "from": "ledger",
+      "to": "reconcile",
+      "label": "结果未知",
+      "variant": "dashed",
+      "role": "error",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          430,
+          180
+        ],
+        [
+          88,
+          180
+        ]
+      ]
+    },
+    {
+      "id": "reconcile-resolved",
+      "from": "reconcile",
+      "to": "resolved",
+      "label": "记录事实",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "核实后再决定下一次恢复",
+      "items": [
+        "确认成功就复用；证明未执行且安全才重新准入；仍不明就保持暂停。",
+        "结果、检查点和唤醒记录在本地事务中保存；外部写入另需幂等合同。"
+      ]
+    }
+  ]
+}

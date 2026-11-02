@@ -17,6 +17,7 @@
 - **取得合格证据**：[第九章 Retrieval 与 RAG 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch09-retrieval-rag)，观察 BM25、排名融合、权限与版本复核、完整证据组和引用编号校验。
 - **控制执行闭环**：[第十章 Agent Loop 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch10-agent-loop)，观察动作准入、工具配对、独立预算、无进展停止和完成核验的能力边界。
 - **编排多步任务**：[第十一章 Workflow 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch11-workflow)，观察路由准入、DAG 校验、依赖就绪、有限重试、失败传播与只读结果复用。
+- **跨中断恢复任务**：[第十二章持久恢复实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch12-durable-execution)，观察真实子进程中断、审批等待、外部成功但回执未保存、UNKNOWN 核实与成功结果复用。
 
 ## 两种阅读方式
 
@@ -54,7 +55,7 @@
 | --- | --- |
 | [10 Agent 执行循环与运行机制](./10%20Agent%20%E6%89%A7%E8%A1%8C%E5%BE%AA%E7%8E%AF%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6.md) | 动作准入、执行观察、预算停止、生命周期、完成核验与离线实验 |
 | [11 规划、路由与 Workflow](./11%20%E8%A7%84%E5%88%92%E3%80%81%E8%B7%AF%E7%94%B1%E4%B8%8E%20Workflow.md) | 路由准入、计划合同、DAG 调度、分支汇合、失败传播与有限重规划 |
-| [12 状态、持久执行与恢复](./12%20%E7%8A%B6%E6%80%81%E3%80%81%E6%8C%81%E4%B9%85%E6%89%A7%E8%A1%8C%E4%B8%8E%E6%81%A2%E5%A4%8D.md) | 检查点、暂停和持久恢复 |
+| [12 状态、持久执行与恢复](./12%20%E7%8A%B6%E6%80%81%E3%80%81%E6%8C%81%E4%B9%85%E6%89%A7%E8%A1%8C%E4%B8%8E%E6%81%A2%E5%A4%8D.md) | 恢复合同、检查点、未知结果、并发推进、审批取消与版本迁移 |
 | [13 Multi-Agent 协作](./13%20Multi-Agent%20%E5%8D%8F%E4%BD%9C.md) | 职责协作与 A2A 互操作支线 |
 
 ### D · 能力与执行环境
