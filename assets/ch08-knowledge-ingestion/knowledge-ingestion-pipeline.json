@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "企业知识加工与受控发布",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      520
+    ]
+  },
+  "stages": [
+    {
+      "label": "来源"
+    },
+    {
+      "label": "原文"
+    },
+    {
+      "label": "解析"
+    },
+    {
+      "label": "质量"
+    },
+    {
+      "label": "索引"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source-events",
+      "type": "external",
+      "label": "来源与增量事件",
+      "sublabel": "新增 · 更新 · 删除",
+      "stage": 0,
+      "row": 0,
+      "tag": "01 接入"
+    },
+    {
+      "id": "versioned-raw",
+      "type": "database",
+      "label": "版本化原文",
+      "sublabel": "内容指纹与来源定位",
+      "stage": 1,
+      "row": 0,
+      "tag": "02 留存"
+    },
+    {
+      "id": "document-structure",
+      "type": "backend",
+      "label": "解析与 OCR",
+      "sublabel": "规范化段落与表格",
+      "stage": 2,
+      "row": 0,
+      "tag": "03 还原"
+    },
+    {
+      "id": "chunk-quality",
+      "type": "security",
+      "label": "分块与质量门禁",
+      "sublabel": "保留标题、位置与血缘",
+      "stage": 3,
+      "row": 0,
+      "tag": "04 校验"
+    },
+    {
+      "id": "candidate-index",
+      "type": "database",
+      "label": "候选索引",
+      "sublabel": "全文与向量派生副本",
+      "stage": 4,
+      "row": 0,
+      "tag": "05 构建"
+    },
+    {
+      "id": "release-gate",
+      "type": "security",
+      "label": "版本核对与发布",
+      "sublabel": "拒绝过期或已删除版本",
+      "stage": 4,
+      "row": 1,
+      "tag": "06 生效"
+    },
+    {
+      "id": "search-snapshot",
+      "type": "database",
+      "label": "可检索快照",
+      "sublabel": "读取时仍需权限复核",
+      "stage": 3,
+      "row": 1,
+      "tag": "07 使用"
+    },
+    {
+      "id": "quarantine",
+      "type": "backend",
+      "label": "失败隔离",
+      "sublabel": "修复后重跑指定阶段",
+      "stage": 2,
+      "row": 1,
+      "tag": "不予发布"
+    },
+    {
+      "id": "authority-manifest",
+      "type": "database",
+      "label": "权威版本清单",
+      "sublabel": "版本 · 权限 · 删除",
+      "stage": 4,
+      "row": 2,
+      "tag": "主库 manifest"
+    }
+  ],
+  "flows": [
+    {
+      "id": "capture-source",
+      "from": "source-events",
+      "to": "versioned-raw",
+      "label": "采集",
+      "variant": "emphasis"
+    },
+    {
+      "id": "parse-raw",
+      "from": "versioned-raw",
+      "to": "document-structure",
+      "label": "提取",
+      "variant": "emphasis"
+    },
+    {
+      "id": "check-blocks",
+      "from": "document-structure",
+      "to": "chunk-quality",
+      "label": "结构块",
+      "variant": "emphasis"
+    },
+    {
+      "id": "build-candidate",
+      "from": "chunk-quality",
+      "to": "candidate-index",
+      "label": "通过",
+      "variant": "emphasis"
+    },
+    {
+      "id": "prepare-release",
+      "from": "candidate-index",
+      "to": "release-gate",
+      "label": "构建回执",
+      "variant": "emphasis"
+    },
+    {
+      "id": "publish-snapshot",
+      "from": "release-gate",
+      "to": "search-snapshot",
+      "label": "发布指针",
+      "variant": "emphasis",
+      "route": "straight",
+      "fromSide": "left",
+      "toSide": "right"
+    },
+    {
+      "id": "isolate-failure",
+      "from": "document-structure",
+      "to": "quarantine",
+      "label": "质量失败",
+      "variant": "dashed"
+    },
+    {
+      "id": "version-fence",
+      "from": "authority-manifest",
+      "to": "release-gate",
+      "label": "核对版本与删除栅栏",
+      "variant": "security"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "加工可追溯",
+      "items": [
+        "原文、结构块、Chunk 与索引均关联来源版本",
+        "解析质量失败进入隔离，不直接进入检索"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "发布受控制",
+      "items": [
+        "构建完成与业务可见是两个独立状态",
+        "迟到任务必须通过当前版本与删除栅栏核对"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "索引可重建",
+      "items": [
+        "主库 manifest 管理当前有效状态",
+        "全文与向量索引只是可重建的派生副本"
+      ]
+    }
+  ]
+}
