@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "企业记忆：从候选到可信写入",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1340,
+      600
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      30,
+      100
+    ],
+    "cols": 6,
+    "gapX": 64,
+    "gapY": 216,
+    "cellW": 160,
+    "cellH": 72
+  },
+  "components": [
+    {
+      "id": "event",
+      "type": "external",
+      "label": "来源事件",
+      "sublabel": "服务端绑定身份",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "propose",
+      "type": "backend",
+      "label": "提取候选",
+      "sublabel": "模型仅提供建议",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "admit",
+      "type": "security",
+      "label": "准入校验",
+      "sublabel": "范围、来源、敏感度",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "guard",
+      "type": "security",
+      "label": "幂等与版本",
+      "sublabel": "指纹与 CAS",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "commit",
+      "type": "database",
+      "label": "同事务提交",
+      "sublabel": "主记录 + Outbox",
+      "row": 0,
+      "col": 4
+    },
+    {
+      "id": "receipt",
+      "type": "frontend",
+      "label": "确认写入",
+      "sublabel": "提交后才报告成功",
+      "row": 0,
+      "col": 5
+    },
+    {
+      "id": "held",
+      "type": "security",
+      "label": "拒绝或待确认",
+      "sublabel": "不进入有效记忆",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "conflict",
+      "type": "backend",
+      "label": "版本冲突",
+      "sublabel": "重读后再判断",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "projection",
+      "type": "database",
+      "label": "刷新派生索引",
+      "sublabel": "幂等消费与版本防旧",
+      "row": 1,
+      "col": 4
+    }
+  ],
+  "connections": [
+    {
+      "id": "event-propose",
+      "from": "event",
+      "to": "propose",
+      "variant": "emphasis"
+    },
+    {
+      "id": "propose-admit",
+      "from": "propose",
+      "to": "admit",
+      "variant": "emphasis"
+    },
+    {
+      "id": "admit-guard",
+      "from": "admit",
+      "to": "guard",
+      "variant": "emphasis"
+    },
+    {
+      "id": "guard-commit",
+      "from": "guard",
+      "to": "commit",
+      "variant": "emphasis"
+    },
+    {
+      "id": "commit-receipt",
+      "from": "commit",
+      "to": "receipt",
+      "variant": "emphasis"
+    },
+    {
+      "id": "admit-held",
+      "from": "admit",
+      "to": "held",
+      "label": "未通过",
+      "variant": "security",
+      "labelAt": [
+        538,
+        280
+      ]
+    },
+    {
+      "id": "guard-conflict",
+      "from": "guard",
+      "to": "conflict",
+      "label": "版本冲突",
+      "variant": "security",
+      "labelAt": [
+        762,
+        280
+      ]
+    },
+    {
+      "id": "commit-projection",
+      "from": "commit",
+      "to": "projection",
+      "label": "异步投递",
+      "variant": "dashed",
+      "labelAt": [
+        986,
+        280
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "幂等先核对请求",
+      "items": [
+        "同一键、同一指纹：返回原回执",
+        "同一键、不同指纹：明确拒绝"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "主库决定当前版本",
+      "items": [
+        "索引只提供候选 ID 与版本",
+        "读出前复核范围、状态与有效期"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "删除必须防止复活",
+      "items": [
+        "删除推进版本并保留最小栅栏",
+        "迟到事件不能重建旧版本正文"
+      ]
+    }
+  ]
+}
