@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业上下文怎样经过筛选、组装与计量",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [720, 342],
+    "legend": {"mode": "hidden"}
+  },
+  "lanes": [
+    {"id": "assembly", "label": "任务与身份先绑定 · 相关性选择必须经过授权过滤"},
+    {"id": "controls", "label": "指令与外部数据保持分区 · 必需内容超预算则停止"}
+  ],
+  "mainPath": ["task_identity", "candidate_sources", "access_freshness", "budget_selection", "partitioned_assembly", "metered_handoff"],
+  "nodes": [
+    {"id": "task_identity", "lane": "assembly", "col": 0, "type": "security", "label": "任务身份", "sublabel": "任务·可信身份", "width": 92},
+    {"id": "candidate_sources", "lane": "assembly", "col": 1, "type": "database", "label": "收集候选", "sublabel": "按访问范围取数", "width": 92},
+    {"id": "access_freshness", "lane": "controls", "col": 2, "type": "security", "label": "权限与时效过滤", "sublabel": "授权·时效·状态", "width": 108},
+    {"id": "budget_selection", "lane": "assembly", "col": 3, "type": "backend", "label": "预算内选择", "sublabel": "保留必需与相关内容", "width": 92},
+    {"id": "partitioned_assembly", "lane": "controls", "col": 4, "type": "backend", "label": "组装复核", "sublabel": "指令与外部数据分区", "width": 92},
+    {"id": "metered_handoff", "lane": "assembly", "col": 5, "type": "security", "label": "调用交接", "sublabel": "计量通过再调用", "width": 92}
+  ],
+  "edges": [
+    {"id": "identity-to-sources", "from": "task_identity", "to": "candidate_sources", "role": "main"},
+    {"id": "sources-to-access", "from": "candidate_sources", "to": "access_freshness", "role": "main"},
+    {"id": "access-to-budget", "from": "access_freshness", "to": "budget_selection", "role": "main"},
+    {"id": "budget-to-assembly", "from": "budget_selection", "to": "partitioned_assembly", "role": "main"},
+    {"id": "assembly-to-handoff", "from": "partitioned_assembly", "to": "metered_handoff", "role": "main", "variant": "emphasis"}
+  ]
+}

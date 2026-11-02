@@ -12,6 +12,7 @@
 - **动手练习**：[第二章 HTTP、SQLite 与异步实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch02-system-basics)，通过实际请求和失败案例理解系统基础。
 - **校验模型候选**：[第四章结构化输入输出实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch04-structured-io)，离线观察严格解析、字段约束、跨字段规则与来源核验。
 - **维护任务指令**：[第五章 Prompt 工程实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch05-prompt-engineering)，验证请求装配、版本摘要和人工回放中的改善与退化。
+- **组装本轮上下文**：[第六章 Context Engineering 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch06-context-engineering)，观察权限与时效过滤、必需项保留、原子分组和字节预算选择。
 
 ## 两种阅读方式
 
@@ -38,7 +39,7 @@
 | 专题 | 重点 |
 | --- | --- |
 | [05 Prompt 工程](./05%20Prompt%20%E5%B7%A5%E7%A8%8B.md) | 任务合同、指令与示例、模板工程、配对评测与发布回滚 |
-| [06 Context Engineering](./06%20Context%20Engineering.md) | 逐轮信息选择、预算和压缩 |
+| [06 Context Engineering](./06%20Context%20Engineering.md) | 来源与权限、完整请求预算、选择与压缩、证据血缘及失效传播 |
 | [07 Memory 记忆系统](./07%20Memory%20%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F.md) | 跨会话信息的记忆与纠错 |
 | [08 数据接入与知识加工](./08%20%E6%95%B0%E6%8D%AE%E6%8E%A5%E5%85%A5%E4%B8%8E%E7%9F%A5%E8%AF%86%E5%8A%A0%E5%B7%A5.md) | 资料解析、加工、索引与血缘 |
 | [09 Retrieval 与 RAG](./09%20Retrieval%20%E4%B8%8E%20RAG.md) | 证据检索、重排、引用与回答 |
