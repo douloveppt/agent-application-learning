@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业 Agent：让每次行动都有依据",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      900,
+      466
+    ]
+  },
+  "lanes": [
+    {
+      "id": "loop",
+      "label": "受控执行闭环"
+    },
+    {
+      "id": "control",
+      "label": "完成、暂停与核实"
+    },
+    {
+      "id": "outcome",
+      "label": "交付与停止",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "context",
+    "proposal",
+    "admission",
+    "execute"
+  ],
+  "nodes": [
+    {
+      "id": "context",
+      "lane": "loop",
+      "col": 0,
+      "type": "backend",
+      "label": "准备下一轮",
+      "sublabel": "身份范围、上下文与预算"
+    },
+    {
+      "id": "proposal",
+      "lane": "loop",
+      "col": 2,
+      "type": "cloud",
+      "label": "模型提出下一步",
+      "sublabel": "回答候选或工具请求"
+    },
+    {
+      "id": "admission",
+      "lane": "loop",
+      "col": 3,
+      "type": "security",
+      "label": "程序校验与准入",
+      "sublabel": "参数、权限与副作用约束"
+    },
+    {
+      "id": "execute",
+      "lane": "loop",
+      "col": 5,
+      "type": "backend",
+      "label": "执行并记录结果",
+      "sublabel": "回执、错误与运行状态"
+    },
+    {
+      "id": "verify",
+      "lane": "control",
+      "col": 2,
+      "type": "backend",
+      "label": "核验完成条件",
+      "sublabel": "证据充分 · 业务回执一致"
+    },
+    {
+      "id": "approval",
+      "lane": "control",
+      "col": 3,
+      "type": "security",
+      "label": "保存并等待审批",
+      "sublabel": "批准后重新检查当前权限"
+    },
+    {
+      "id": "reconcile",
+      "lane": "control",
+      "col": 5,
+      "type": "external",
+      "label": "核实未知结果",
+      "sublabel": "写入超时后先查询回执"
+    },
+    {
+      "id": "delivered",
+      "lane": "outcome",
+      "col": 2,
+      "type": "frontend",
+      "label": "交付可核验结果",
+      "sublabel": "结果、证据与未完成事项"
+    },
+    {
+      "id": "stopped",
+      "lane": "outcome",
+      "col": 0,
+      "type": "security",
+      "label": "停止并说明原因",
+      "sublabel": "取消 · 限额 · 无法继续"
+    }
+  ],
+  "edges": [
+    {
+      "from": "context",
+      "to": "proposal",
+      "role": "main"
+    },
+    {
+      "from": "proposal",
+      "to": "admission",
+      "label": "行动",
+      "role": "main"
+    },
+    {
+      "from": "admission",
+      "to": "execute",
+      "label": "获准",
+      "role": "main"
+    },
+    {
+      "from": "proposal",
+      "to": "verify",
+      "label": "完成候选",
+      "role": "branch"
+    },
+    {
+      "from": "verify",
+      "to": "delivered",
+      "label": "验收通过",
+      "role": "branch"
+    },
+    {
+      "from": "admission",
+      "to": "approval",
+      "label": "需要审批",
+      "role": "branch",
+      "variant": "security"
+    },
+    {
+      "from": "context",
+      "to": "stopped",
+      "label": "停止条件成立",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "from": "execute",
+      "to": "context",
+      "label": "观察后再决策",
+      "role": "return",
+      "variant": "emphasis",
+      "fromSide": "top",
+      "toSide": "top",
+      "route": "up-channel"
+    },
+    {
+      "from": "execute",
+      "to": "reconcile",
+      "label": "写入结果未知",
+      "role": "branch",
+      "variant": "security"
+    }
+  ]
+}

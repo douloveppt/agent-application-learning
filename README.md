@@ -15,6 +15,7 @@
 - **组装本轮上下文**：[第六章 Context Engineering 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch06-context-engineering)，观察权限与时效过滤、必需项保留、原子分组和字节预算选择。
 - **管理跨会话记忆**：[第七章 Memory 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch07-memory)，观察幂等写入、版本纠正、用户隔离、到期失效与删除后的旧索引拒绝。
 - **取得合格证据**：[第九章 Retrieval 与 RAG 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch09-retrieval-rag)，观察 BM25、排名融合、权限与版本复核、完整证据组和引用编号校验。
+- **控制执行闭环**：[第十章 Agent Loop 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch10-agent-loop)，观察动作准入、工具配对、独立预算、无进展停止和完成核验的能力边界。
 
 ## 两种阅读方式
 
@@ -50,7 +51,7 @@
 
 | 专题 | 重点 |
 | --- | --- |
-| [10 Agent 执行循环与运行机制](./10%20Agent%20%E6%89%A7%E8%A1%8C%E5%BE%AA%E7%8E%AF%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6.md) | Loop、Runtime、Harness 与执行管线 |
+| [10 Agent 执行循环与运行机制](./10%20Agent%20%E6%89%A7%E8%A1%8C%E5%BE%AA%E7%8E%AF%E4%B8%8E%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6.md) | 动作准入、执行观察、预算停止、生命周期、完成核验与离线实验 |
 | [11 规划、路由与 Workflow](./11%20%E8%A7%84%E5%88%92%E3%80%81%E8%B7%AF%E7%94%B1%E4%B8%8E%20Workflow.md) | 任务拆解、路由、依赖与流程 |
 | [12 状态、持久执行与恢复](./12%20%E7%8A%B6%E6%80%81%E3%80%81%E6%8C%81%E4%B9%85%E6%89%A7%E8%A1%8C%E4%B8%8E%E6%81%A2%E5%A4%8D.md) | 检查点、暂停和持久恢复 |
 | [13 Multi-Agent 协作](./13%20Multi-Agent%20%E5%8D%8F%E4%BD%9C.md) | 职责协作与 A2A 互操作支线 |
