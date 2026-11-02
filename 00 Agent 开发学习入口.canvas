@@ -1,0 +1,156 @@
+{
+	"nodes": [
+		{
+			"id": "entry",
+			"type": "text",
+			"x": 0,
+			"y": -215,
+			"width": 1250,
+			"height": 165,
+			"color": "5",
+			"text": "# Agent 应用开发 <span class=\"agent-learning-entry-marker agent-entry-hero\"></span>\n\n**7 个板块 · 33 个主题 · 一条从理解到交付的学习路径**\n\n先修 → 应用主线 → 按需深入。单击专题进入，按路线动手验证。"
+		},
+		{
+			"id": "workspace",
+			"type": "text",
+			"x": 1300,
+			"y": -215,
+			"width": 600,
+			"height": 165,
+			"color": "5",
+			"text": "## 从这里开始 <span class=\"agent-learning-entry-marker agent-entry-launchpad\"></span>\n\n[[90 学习路线与实战|学习路线与实战]]　[[92 学习工作台与资料|学习进度与资料]]\n\n[[README|项目介绍与章节导航]]　[[91 概念辨析与自测|概念辨析与自测]]"
+		},
+		{
+			"id": "board-0",
+			"type": "text",
+			"x": 0,
+			"y": 0,
+			"width": 600,
+			"height": 350,
+			"color": "2",
+			"text": "## A　目标与模型基础 <span class=\"agent-learning-entry-marker agent-entry-a\"></span>\n\n明确目标与模型能力，02 为软件先修。\n\n### [[01 产品目标与自治边界|01　产品目标与自治边界]]\n\n### [[02 软件与系统基础|02　软件与系统基础]]\n\n### [[03 LLM 与模型接入|03　LLM 与模型接入]]\n\n### [[04 结构化输入输出|04　结构化输入输出]]"
+		},
+		{
+			"id": "board-1",
+			"type": "text",
+			"x": 650,
+			"y": 0,
+			"width": 600,
+			"height": 400,
+			"color": "6",
+			"text": "## B　指令、上下文与知识 <span class=\"agent-learning-entry-marker agent-entry-b\"></span>\n\n把合适的指令、记忆与证据交给模型。\n\n### [[05 Prompt 工程|05　Prompt 工程]]\n\n### [[06 Context Engineering|06　Context 上下文工程]]\n\n### [[07 Memory 记忆系统|07　Memory 记忆系统]]\n\n### [[08 数据接入与知识加工|08　数据接入与知识加工]]\n\n### [[09 Retrieval 与 RAG|09　Retrieval 与 RAG]]"
+		},
+		{
+			"id": "board-2",
+			"type": "text",
+			"x": 1300,
+			"y": 0,
+			"width": 600,
+			"height": 350,
+			"color": "5",
+			"text": "## C　决策与编排 <span class=\"agent-learning-entry-marker agent-entry-c\"></span>\n\n组织决策、任务流程、状态与协作。\n\n### [[10 Agent 执行循环与运行机制|10　执行循环与运行机制]]\n\n### [[11 规划、路由与 Workflow|11　规划、路由与 Workflow]]\n\n### [[12 状态、持久执行与恢复|12　状态、持久执行与恢复]]\n\n### [[13 Multi-Agent 协作|13　Multi-Agent 协作]]"
+		},
+		{
+			"id": "board-3",
+			"type": "text",
+			"x": 0,
+			"y": 410,
+			"width": 600,
+			"height": 490,
+			"color": "4",
+			"text": "## D　能力与执行环境 <span class=\"agent-learning-entry-marker agent-entry-d\"></span>\n\n连接业务能力，在受控环境中完成行动。\n\n### [[14 Tools 与 Function Calling|14　Tools 与 Function Calling]]\n\n### [[15 Skills 可复用技能|15　Skills 可复用技能]]\n\n### [[16 MCP 能力连接协议|16　MCP 能力连接协议]]\n\n### [[17 Connectors 与业务集成|17　Connectors 与业务集成]]\n\n### [[18 Sandbox 沙箱|18　Sandbox 沙箱]]\n\n### [[19 浏览器与桌面自动化|19　浏览器与桌面自动化]]\n\n### [[33 Coding Agent 与软件工程任务|33　Coding Agent 与软件工程]]"
+		},
+		{
+			"id": "board-4",
+			"type": "text",
+			"x": 650,
+			"y": 460,
+			"width": 600,
+			"height": 305,
+			"color": "1",
+			"text": "## E　身份、安全与人工控制 <span class=\"agent-learning-entry-marker agent-entry-e\"></span>\n\n明确授权，守住边界，保留人的控制权。\n\n### [[20 身份、权限与多租户|20　身份、权限与多租户]]\n\n### [[21 安全与 Guardrails|21　安全与 Guardrails]]\n\n### [[22 Human-in-the-loop|22　Human-in-the-loop]]"
+		},
+		{
+			"id": "board-5",
+			"type": "text",
+			"x": 1300,
+			"y": 410,
+			"width": 600,
+			"height": 350,
+			"color": "5",
+			"text": "## F　产品与服务工程 <span class=\"agent-learning-entry-marker agent-entry-f\"></span>\n\n构建可靠服务；24 内分多模态与实时语音。\n\n### [[23 交互体验与流式事件|23　交互体验与流式事件]]\n\n### [[24 多模态与实时语音|24　多模态与实时语音]]\n\n### [[25 后端、调度与存储|25　后端、调度与存储]]\n\n### [[26 可靠性与副作用一致性|26　可靠性与副作用一致性]]"
+		},
+		{
+			"id": "board-6",
+			"type": "text",
+			"x": 650,
+			"y": 825,
+			"width": 1250,
+			"height": 295,
+			"color": "2",
+			"text": "## G　质量、交付与持续改进 <span class=\"agent-learning-entry-marker agent-entry-g\"></span>\n\n以评测驱动交付；31 为模型适配进阶方向。\n\n| [[27 测试、Evals 与质量门禁\\|27　测试、Evals 与质量门禁]] | [[28 可观测性与调试\\|28　可观测性与调试]] |\n| --- | --- |\n| [[29 性能、成本与模型路由\\|29　性能、成本与模型路由]] | [[30 部署、版本与 LLMOps\\|30　部署、版本与 LLMOps]] |\n| [[31 微调、蒸馏与模型适配\\|31　微调、蒸馏与模型适配]] | [[32 数据治理与持续改进\\|32　数据治理与持续改进]] |"
+		}
+	],
+	"edges": [
+		{
+			"id": "line-0",
+			"fromNode": "board-0",
+			"fromSide": "right",
+			"fromEnd": "none",
+			"toNode": "board-1",
+			"toSide": "left",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		},
+		{
+			"id": "line-1",
+			"fromNode": "board-1",
+			"fromSide": "right",
+			"fromEnd": "none",
+			"toNode": "board-2",
+			"toSide": "left",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		},
+		{
+			"id": "line-2",
+			"fromNode": "board-1",
+			"fromSide": "bottom",
+			"fromEnd": "none",
+			"toNode": "board-4",
+			"toSide": "top",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		},
+		{
+			"id": "line-3",
+			"fromNode": "board-4",
+			"fromSide": "left",
+			"fromEnd": "none",
+			"toNode": "board-3",
+			"toSide": "right",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		},
+		{
+			"id": "line-4",
+			"fromNode": "board-2",
+			"fromSide": "bottom",
+			"fromEnd": "none",
+			"toNode": "board-5",
+			"toSide": "top",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		},
+		{
+			"id": "line-5",
+			"fromNode": "board-5",
+			"fromSide": "bottom",
+			"fromEnd": "none",
+			"toNode": "board-6",
+			"toSide": "top",
+			"toEnd": "arrow",
+			"color": "#a5aebb"
+		}
+	]
+}

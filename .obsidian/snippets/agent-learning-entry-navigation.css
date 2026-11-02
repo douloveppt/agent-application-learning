@@ -1,0 +1,203 @@
+/* Agent learning entry: scoped typography, layout and one-click navigation. */
+.canvas-node:has(.agent-learning-entry-marker) {
+  --agent-accent: #51657e;
+}
+.canvas-node:has(.agent-entry-a) { --agent-accent: #496a92; }
+.canvas-node:has(.agent-entry-b) { --agent-accent: #78639c; }
+.canvas-node:has(.agent-entry-c) { --agent-accent: #387f86; }
+.canvas-node:has(.agent-entry-d) { --agent-accent: #3c7c69; }
+.canvas-node:has(.agent-entry-e) { --agent-accent: #96664e; }
+.canvas-node:has(.agent-entry-f) { --agent-accent: #50779b; }
+.canvas-node:has(.agent-entry-g) { --agent-accent: #596b83; }
+.canvas-node:has(.agent-learning-entry-marker) .canvas-node-content-blocker {
+  display: none !important;
+}
+.agent-learning-entry-marker { display: none; }
+
+.canvas-node:has(.agent-learning-entry-marker) .canvas-node-container {
+  border: 1px solid color-mix(in srgb, var(--agent-accent) 28%, var(--background-modifier-border)) !important;
+  border-top: 4px solid var(--agent-accent) !important;
+  border-radius: 18px !important;
+  background: var(--background-primary) !important;
+  box-shadow: 0 6px 20px rgba(25, 37, 55, 0.055) !important;
+  overflow: hidden;
+}
+.canvas-node:has(.agent-learning-entry-marker) .canvas-node-content {
+  background: var(--background-primary) !important;
+  border-radius: 16px;
+}
+.canvas-node:has(.agent-learning-entry-marker) .markdown-rendered {
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 24px 26px !important;
+  font-family: var(--font-interface);
+  font-size: 20px !important;
+  line-height: 1.4 !important;
+  color: var(--text-normal);
+}
+.canvas-node:has(.agent-learning-entry-marker) .markdown-rendered h2 {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  font-size: 28px !important;
+  font-weight: 650 !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.025em;
+  color: var(--agent-accent) !important;
+  border: 0 !important;
+}
+.canvas-node:has(.agent-learning-entry-marker) .markdown-rendered p {
+  margin: 0 0 16px !important;
+  font-size: 18px !important;
+  line-height: 1.45 !important;
+  color: var(--text-normal);
+  opacity: 0.76;
+}
+.canvas-node:has(.agent-learning-entry-marker) .markdown-rendered h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 24px !important;
+  line-height: 1.35 !important;
+  font-weight: 500 !important;
+}
+.canvas-node:has(.agent-learning-entry-marker) h3 a.internal-link,
+.canvas-node:has(.agent-entry-g) td a.internal-link,
+.canvas-node:has(.agent-entry-g) th a.internal-link {
+  display: block;
+  padding: 6px 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  color: var(--text-normal) !important;
+  font-size: 24px !important;
+  line-height: 1.35 !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.canvas-node:has(.agent-learning-entry-marker) h3 a.internal-link::after,
+.canvas-node:has(.agent-entry-g) td a.internal-link::after,
+.canvas-node:has(.agent-entry-g) th a.internal-link::after {
+  content: "↗";
+  float: right;
+  margin-left: 12px;
+  color: var(--agent-accent);
+  opacity: 0.7;
+}
+.canvas-node:has(.agent-learning-entry-marker) a.internal-link:hover {
+  color: var(--agent-accent) !important;
+  background: color-mix(in srgb, var(--agent-accent) 9%, transparent);
+}
+.canvas-node:has(.agent-entry-g) table {
+  width: 100% !important;
+  margin: 0 !important;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 0 !important;
+  font-size: 24px !important;
+}
+.canvas-node:has(.agent-entry-g) th,
+.canvas-node:has(.agent-entry-g) td {
+  width: 50%;
+  border: 0 !important;
+  background: transparent !important;
+  text-align: left;
+  font-weight: 500 !important;
+  padding: 0 24px 0 0 !important;
+  vertical-align: middle;
+}
+.canvas-node:has(.agent-entry-hero) .markdown-rendered {
+  padding: 23px 28px !important;
+}
+.canvas-node:has(.agent-entry-hero) h1 {
+  margin: 0 0 10px !important;
+  font-size: 40px !important;
+  line-height: 1.12 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.035em;
+}
+.canvas-node:has(.agent-entry-hero) .markdown-rendered p {
+  margin: 0 0 7px !important;
+  font-size: 20px !important;
+  opacity: 0.8;
+}
+.canvas-node:has(.agent-entry-launchpad) .markdown-rendered {
+  padding: 20px 24px !important;
+}
+.canvas-node:has(.agent-entry-launchpad) .markdown-rendered h2 {
+  font-size: 24px !important;
+  margin-bottom: 12px !important;
+}
+.canvas-node:has(.agent-entry-launchpad) .markdown-rendered p {
+  margin-bottom: 9px !important;
+  font-size: 20px !important;
+  opacity: 1;
+}
+.canvas-node:has(.agent-entry-launchpad) a.internal-link {
+  color: var(--agent-accent) !important;
+  text-decoration: none !important;
+  padding: 3px 0;
+  font-weight: 550;
+}
+
+/* Agent chapter navigation: native wiki links, left/right buttons at note end. */
+.callout[data-callout="agent-chapter-nav"] {
+  margin: 2.5em 0 1em;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--background-modifier-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+.callout[data-callout="agent-chapter-nav"] > .callout-title {
+  display: none;
+}
+.callout[data-callout="agent-chapter-nav"] > .callout-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding: 20px 0 0;
+  overflow: visible;
+}
+.callout[data-callout="agent-chapter-nav"] > .callout-content > p {
+  margin: 0 !important;
+  min-width: 0;
+}
+.callout[data-callout="agent-chapter-nav"] a.internal-link {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 82px;
+  height: 100%;
+  padding: 15px 18px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 12px;
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  font-size: 1em;
+  font-weight: 550;
+  line-height: 1.65;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.callout[data-callout="agent-chapter-nav"] > .callout-content > p:last-child a.internal-link {
+  justify-content: flex-end;
+  text-align: right;
+}
+.callout[data-callout="agent-chapter-nav"] a.internal-link:hover {
+  color: var(--text-accent);
+  border-color: var(--interactive-accent);
+  background: color-mix(in srgb, var(--interactive-accent) 7%, var(--background-primary));
+  text-decoration: none;
+}
+.callout[data-callout="agent-chapter-nav"] a.internal-link:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 3px;
+}
