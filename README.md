@@ -10,6 +10,7 @@
 - **直接查知识**：从下方章节目录进入，或用 [概念辨析与自测](./91%20%E6%A6%82%E5%BF%B5%E8%BE%A8%E6%9E%90%E4%B8%8E%E8%87%AA%E6%B5%8B.md) 检查薄弱点。
 - **查看进度和资料**：[学习工作台与资料](./92%20%E5%AD%A6%E4%B9%A0%E5%B7%A5%E4%BD%9C%E5%8F%B0%E4%B8%8E%E8%B5%84%E6%96%99.md)，包含验收查询、分类依据和官方来源。
 - **动手练习**：[第二章 HTTP、SQLite 与异步实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch02-system-basics)，通过实际请求和失败案例理解系统基础。
+- **校验模型候选**：[第四章结构化输入输出实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch04-structured-io)，离线观察严格解析、字段约束、跨字段规则与来源核验。
 
 ## 两种阅读方式
 
@@ -29,7 +30,7 @@
 | [01 产品目标与自治边界](./01%20%E4%BA%A7%E5%93%81%E7%9B%AE%E6%A0%87%E4%B8%8E%E8%87%AA%E6%B2%BB%E8%BE%B9%E7%95%8C.md) | 任务目标、自治范围与完成标准 |
 | [02 软件与系统基础](./02%20%E8%BD%AF%E4%BB%B6%E4%B8%8E%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80.md) | 编程、接口、状态与并发先修 |
 | [03 LLM 与模型接入](./03%20LLM%20%E4%B8%8E%E6%A8%A1%E5%9E%8B%E6%8E%A5%E5%85%A5.md) | LLM 原理、多模态与选型、适配器／网关、成本核算 |
-| [04 结构化输入输出](./04%20%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA.md) | Schema、类型和业务校验 |
+| [04 结构化输入输出](./04%20%E7%BB%93%E6%9E%84%E5%8C%96%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA.md) | 输入信任边界、契约设计、分层校验、失败处理与离线实验 |
 
 ### B · 指令、上下文与知识
 

@@ -1,0 +1,2 @@
+# Tested with Python 3.11.15 and Pydantic 2.13.3; resolve and lock for your own app.
+pydantic>=2.10,<3

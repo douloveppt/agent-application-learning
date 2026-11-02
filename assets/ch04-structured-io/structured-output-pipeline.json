@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "结构化输入输出的六道处理关口",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      342
+    ],
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "primary",
+      "label": "通过后继续 · 失败时先按原因分流"
+    },
+    {
+      "id": "secondary",
+      "label": "逐层核实 · 交给执行层前完成核验"
+    }
+  ],
+  "mainPath": [
+    "trusted_request",
+    "model_candidate",
+    "response_state",
+    "schema_contract",
+    "semantic_evidence",
+    "business_command"
+  ],
+  "nodes": [
+    {
+      "id": "trusted_request",
+      "lane": "primary",
+      "col": 0,
+      "type": "security",
+      "label": "可信输入",
+      "sublabel": "身份绑定与最小化",
+      "width": 92
+    },
+    {
+      "id": "model_candidate",
+      "lane": "primary",
+      "col": 1,
+      "type": "cloud",
+      "label": "模型候选",
+      "sublabel": "意图理解与字段提取",
+      "width": 92
+    },
+    {
+      "id": "response_state",
+      "lane": "secondary",
+      "col": 2,
+      "type": "backend",
+      "label": "响应终态",
+      "sublabel": "完整·拒绝·取消",
+      "width": 92
+    },
+    {
+      "id": "schema_contract",
+      "lane": "primary",
+      "col": 3,
+      "type": "backend",
+      "label": "结构契约",
+      "sublabel": "类型·枚举·范围",
+      "width": 92
+    },
+    {
+      "id": "semantic_evidence",
+      "lane": "secondary",
+      "col": 4,
+      "type": "backend",
+      "label": "语义证据",
+      "sublabel": "关系·来源·证据",
+      "width": 92
+    },
+    {
+      "id": "business_command",
+      "lane": "primary",
+      "col": 5,
+      "type": "security",
+      "label": "命令交接",
+      "sublabel": "授权·规则·确认",
+      "width": 92
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-to-candidate",
+      "from": "trusted_request",
+      "to": "model_candidate",
+      "role": "main"
+    },
+    {
+      "id": "candidate-to-response",
+      "from": "model_candidate",
+      "to": "response_state",
+      "role": "main"
+    },
+    {
+      "id": "response-to-schema",
+      "from": "response_state",
+      "to": "schema_contract",
+      "role": "main"
+    },
+    {
+      "id": "schema-to-semantics",
+      "from": "schema_contract",
+      "to": "semantic_evidence",
+      "role": "main"
+    },
+    {
+      "id": "semantics-to-command",
+      "from": "semantic_evidence",
+      "to": "business_command",
+      "role": "main",
+      "variant": "emphasis"
+    }
+  ]
+}
