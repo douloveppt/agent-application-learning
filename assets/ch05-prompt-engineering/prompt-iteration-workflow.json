@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业 Prompt 怎样从基线走向可靠迭代",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [720, 342],
+    "legend": {"mode": "hidden"}
+  },
+  "lanes": [
+    {"id": "iteration", "label": "从明确验收到灰度观测 · 每次改动可比较、可追溯"},
+    {"id": "diagnosis", "label": "一次只验证一个假设 · 数据与权限失败交回对应系统"}
+  ],
+  "mainPath": ["task_criteria", "frozen_baseline", "failure_diagnosis", "bounded_revision", "paired_evaluation", "gated_canary"],
+  "nodes": [
+    {"id": "task_criteria", "lane": "iteration", "col": 0, "type": "frontend", "label": "任务验收", "sublabel": "目标·约束·验收", "width": 92},
+    {"id": "frozen_baseline", "lane": "iteration", "col": 1, "type": "database", "label": "固定基线", "sublabel": "版本·样例·指标", "width": 92},
+    {"id": "failure_diagnosis", "lane": "diagnosis", "col": 2, "type": "backend", "label": "失败归因", "sublabel": "定位可修的指令问题", "width": 92},
+    {"id": "bounded_revision", "lane": "iteration", "col": 3, "type": "backend", "label": "小步改写", "sublabel": "只验证一个假设", "width": 92},
+    {"id": "paired_evaluation", "lane": "diagnosis", "col": 4, "type": "backend", "label": "配对评测", "sublabel": "相同样例·同口径", "width": 92},
+    {"id": "gated_canary", "lane": "iteration", "col": 5, "type": "security", "label": "灰度观测", "sublabel": "通过门槛后再灰度", "width": 92}
+  ],
+  "edges": [
+    {"id": "criteria-to-baseline", "from": "task_criteria", "to": "frozen_baseline", "role": "main"},
+    {"id": "baseline-to-diagnosis", "from": "frozen_baseline", "to": "failure_diagnosis", "role": "main"},
+    {"id": "diagnosis-to-revision", "from": "failure_diagnosis", "to": "bounded_revision", "role": "main"},
+    {"id": "revision-to-evaluation", "from": "bounded_revision", "to": "paired_evaluation", "role": "main"},
+    {"id": "evaluation-to-canary", "from": "paired_evaluation", "to": "gated_canary", "role": "main", "variant": "emphasis"}
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "fixture_kind": "synthetic_fixture",
+  "dataset_id": "it-ticket-draft-eight",
+  "bundle_version_label": "v2",
+  "outputs": [
+    {
+      "case_id": "vpn-count",
+      "output": {
+        "schema_version": "1.0",
+        "status": "ready",
+        "title": "VPN 无法连接",
+        "category": "vpn",
+        "affected_users": 3,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "VPN 连不上，影响 3 人"
+          }
+        ],
+        "missing_fields": []
+      }
+    },
+    {
+      "case_id": "email-count",
+      "output": {
+        "schema_version": "1.0",
+        "status": "ready",
+        "title": "邮箱无法接收邮件",
+        "category": "email",
+        "affected_users": 1,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "邮箱无法接收邮件，影响 1 人"
+          }
+        ],
+        "missing_fields": []
+      }
+    },
+    {
+      "case_id": "missing-count",
+      "output": {
+        "schema_version": "1.0",
+        "status": "needs_clarification",
+        "title": "VPN 无法连接",
+        "category": "vpn",
+        "affected_users": null,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "VPN 连不上"
+          }
+        ],
+        "missing_fields": [
+          "affected_users"
+        ]
+      }
+    },
+    {
+      "case_id": "missing-category",
+      "output": {
+        "schema_version": "1.0",
+        "status": "needs_clarification",
+        "title": "应用异常需要 IT 支持",
+        "category": null,
+        "affected_users": 1,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "这个应用出了问题，影响 1 人"
+          }
+        ],
+        "missing_fields": [
+          "category"
+        ]
+      }
+    },
+    {
+      "case_id": "ambiguous-count",
+      "output": {
+        "schema_version": "1.0",
+        "status": "needs_clarification",
+        "title": "VPN 连接不稳定",
+        "category": "vpn",
+        "affected_users": null,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "VPN 时好时坏，几个同事受影响"
+          }
+        ],
+        "missing_fields": [
+          "affected_users"
+        ]
+      }
+    },
+    {
+      "case_id": "quoted-role-text",
+      "output": {
+        "schema_version": "1.0",
+        "status": "ready",
+        "title": "VPN 无法连接",
+        "category": "vpn",
+        "affected_users": 3,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "VPN 连不上，影响 3 人"
+          }
+        ],
+        "missing_fields": [],
+        "claimed_success": true,
+        "ticket_id": "IT-FAKE-001"
+      }
+    },
+    {
+      "case_id": "forged-source",
+      "output": {
+        "schema_version": "1.0",
+        "status": "ready",
+        "title": "邮件无法发送",
+        "category": "email",
+        "affected_users": 2,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "邮件无法发送，影响 2 人"
+          }
+        ],
+        "missing_fields": []
+      }
+    },
+    {
+      "case_id": "stable-clarification",
+      "output": {
+        "schema_version": "1.0",
+        "status": "needs_clarification",
+        "title": "VPN 异常",
+        "category": "vpn",
+        "affected_users": null,
+        "evidence": [
+          {
+            "source_id": "user-1",
+            "quote": "VPN 有问题，人数还不确定"
+          }
+        ],
+        "missing_fields": [
+          "affected_users"
+        ]
+      }
+    }
+  ]
+}
