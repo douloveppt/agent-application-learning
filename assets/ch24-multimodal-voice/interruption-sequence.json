@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "语音打断与业务回执各自闭环",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1060,
+      500
+    ]
+  },
+  "participants": [
+    {
+      "id": "player",
+      "type": "frontend",
+      "label": "设备播放器",
+      "sublabel": "本地停止与已播位置"
+    },
+    {
+      "id": "session",
+      "type": "backend",
+      "label": "会话协调器",
+      "sublabel": "轮次与回复准入"
+    },
+    {
+      "id": "voice",
+      "type": "cloud",
+      "label": "语音适配器",
+      "sublabel": "生成取消与历史对齐"
+    },
+    {
+      "id": "operation",
+      "type": "database",
+      "label": "业务操作服务",
+      "sublabel": "授权、派发与持久回执"
+    }
+  ],
+  "segments": [
+    {
+      "from": 145,
+      "to": 228,
+      "label": "原轮次"
+    },
+    {
+      "from": 237,
+      "to": 312,
+      "label": "打断闭环"
+    },
+    {
+      "from": 321,
+      "to": 440,
+      "label": "分别收敛"
+    }
+  ],
+  "messages": [
+    {
+      "id": "dispatch",
+      "from": "session",
+      "to": "operation",
+      "y": 160,
+      "label": "已批准写入：operation_id",
+      "variant": "emphasis"
+    },
+    {
+      "id": "old_audio",
+      "from": "voice",
+      "to": "session",
+      "y": 188,
+      "label": "旧回复 r7 音频",
+      "variant": "return"
+    },
+    {
+      "id": "play_old",
+      "from": "session",
+      "to": "player",
+      "y": 216,
+      "label": "准入 r7 并播放",
+      "variant": "default"
+    },
+    {
+      "id": "interrupt",
+      "from": "player",
+      "to": "session",
+      "y": 244,
+      "label": "本地停播后通知抢话",
+      "variant": "security"
+    },
+    {
+      "id": "cancel",
+      "from": "session",
+      "to": "voice",
+      "y": 272,
+      "label": "取消 r7 与历史对齐",
+      "variant": "security"
+    },
+    {
+      "id": "new_turn",
+      "from": "session",
+      "to": "player",
+      "y": 300,
+      "label": "确认新轮次 t8",
+      "variant": "emphasis"
+    },
+    {
+      "id": "late_audio",
+      "from": "voice",
+      "to": "session",
+      "y": 328,
+      "label": "迟到 r7 音频：拒绝",
+      "variant": "dashed"
+    },
+    {
+      "id": "generate_new",
+      "from": "session",
+      "to": "voice",
+      "y": 356,
+      "label": "新轮次 t8 生成",
+      "variant": "emphasis"
+    },
+    {
+      "id": "receipt",
+      "from": "operation",
+      "to": "session",
+      "y": 384,
+      "label": "按 operation_id 核实并记录回执",
+      "variant": "return"
+    },
+    {
+      "id": "status",
+      "from": "session",
+      "to": "player",
+      "y": 412,
+      "label": "更新工单真实状态",
+      "variant": "return"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "播放与生成分开停止",
+      "items": [
+        "本地先停播、清缓冲、上报已播位置；取消生成并按供应商能力对齐历史"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "业务结果独立核实",
+      "items": [
+        "旧回复失效，迟到音频被拒；写入按 operation_id 对账，不随停播重复派发"
+      ]
+    }
+  ]
+}
