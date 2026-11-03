@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "工具调用：从模型建议到可信回执",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      360
+    ],
+    "legend": {
+      "entries": {
+        "frontend": {
+          "label": "调用与交付"
+        },
+        "backend": {
+          "label": "业务执行"
+        },
+        "security": {
+          "label": "准入策略"
+        },
+        "messagebus": {
+          "label": "未知状态"
+        },
+        "database": {
+          "label": "回执核实"
+        }
+      }
+    }
+  },
+  "lanes": [
+    {
+      "id": "execute_lane",
+      "label": "受控调用主线"
+    },
+    {
+      "id": "exception_lane",
+      "label": "拒绝与结果核实",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "intent_phase",
+      "label": "调用提议",
+      "fromCol": 0,
+      "toCol": 0
+    },
+    {
+      "id": "admit_phase",
+      "label": "可信准入",
+      "fromCol": 1,
+      "toCol": 1,
+      "variant": "security"
+    },
+    {
+      "id": "effect_phase",
+      "label": "执行与证据",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "emphasis"
+    }
+  ],
+  "mainPath": [
+    "model_proposal",
+    "execution_gate",
+    "idempotent_effect",
+    "evidence_delivery"
+  ],
+  "nodes": [
+    {
+      "id": "model_proposal",
+      "lane": "execute_lane",
+      "col": 0,
+      "type": "frontend",
+      "label": "模型提议",
+      "sublabel": "名称与完整参数",
+      "tag": "不等于执行"
+    },
+    {
+      "id": "execution_gate",
+      "lane": "execute_lane",
+      "col": 1,
+      "type": "security",
+      "label": "执行准入",
+      "sublabel": "契约、权限、审批"
+    },
+    {
+      "id": "idempotent_effect",
+      "lane": "execute_lane",
+      "col": 3,
+      "type": "backend",
+      "label": "幂等执行",
+      "sublabel": "操作登记与适配器"
+    },
+    {
+      "id": "evidence_delivery",
+      "lane": "execute_lane",
+      "col": 5,
+      "type": "frontend",
+      "label": "据证交付",
+      "sublabel": "校验结果后回传模型"
+    },
+    {
+      "id": "gate_denial",
+      "lane": "exception_lane",
+      "col": 1,
+      "type": "security",
+      "label": "拒绝执行",
+      "sublabel": "条件不满足即停止"
+    },
+    {
+      "id": "unknown_write",
+      "lane": "exception_lane",
+      "col": 3,
+      "type": "messagebus",
+      "label": "结果未知",
+      "sublabel": "写入可能已发生"
+    },
+    {
+      "id": "operation_lookup",
+      "lane": "exception_lane",
+      "col": 5,
+      "type": "database",
+      "label": "回执核实",
+      "sublabel": "查询同一业务操作号"
+    }
+  ],
+  "edges": [
+    {
+      "id": "proposal_gate",
+      "from": "model_proposal",
+      "to": "execution_gate",
+      "role": "main"
+    },
+    {
+      "id": "gate_effect",
+      "from": "execution_gate",
+      "to": "idempotent_effect",
+      "role": "main",
+      "label": "准入通过"
+    },
+    {
+      "id": "effect_delivery",
+      "from": "idempotent_effect",
+      "to": "evidence_delivery",
+      "role": "main",
+      "label": "明确回执"
+    },
+    {
+      "id": "gate_denied",
+      "from": "execution_gate",
+      "to": "gate_denial",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "effect_unknown",
+      "from": "idempotent_effect",
+      "to": "unknown_write",
+      "role": "error",
+      "variant": "security",
+      "label": "回执丢失"
+    },
+    {
+      "id": "unknown_lookup",
+      "from": "unknown_write",
+      "to": "operation_lookup",
+      "role": "branch",
+      "label": "只做核实"
+    },
+    {
+      "id": "lookup_delivery",
+      "from": "operation_lookup",
+      "to": "evidence_delivery",
+      "role": "return",
+      "variant": "dashed",
+      "label": "核实状态"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "准入：每一项都由代码检查",
+      "items": [
+        "白名单与完整参数 → 可信身份与资源权限",
+        "写操作预览审批绑定内容摘要和版本"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "执行：业务证据决定最终状态",
+      "items": [
+        "先登记稳定 operation_id，再调用业务适配器",
+        "写入未知禁止盲重发；查无回执仍可能未知"
+      ]
+    }
+  ]
+}

@@ -19,6 +19,7 @@
 - **编排多步任务**：[第十一章 Workflow 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch11-workflow)，观察路由准入、DAG 校验、依赖就绪、有限重试、失败传播与只读结果复用。
 - **跨中断恢复任务**：[第十二章持久恢复实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch12-durable-execution)，观察真实子进程中断、审批等待、外部成功但回执未保存、UNKNOWN 核实与成功结果复用。
 - **组织多个执行者**：[第十三章 Multi-Agent 协作实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch13-multi-agent)，观察委派结果校验、证据冲突、重复与迟到、权限边界和父层预算。
+- **受控执行工具**：[第十四章 Tools 与 Function Calling 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch14-tool-calling)，观察严格参数边界、本人数据隔离、精确审批、重复提交回执与未知结果核实。
 
 ## 两种阅读方式
 
@@ -63,7 +64,7 @@
 
 | 专题 | 重点 |
 | --- | --- |
-| [14 Tools 与 Function Calling](./14%20Tools%20%E4%B8%8E%20Function%20Calling.md) | 工具契约、调用与执行结果 |
+| [14 Tools 与 Function Calling](./14%20Tools%20%E4%B8%8E%20Function%20Calling.md) | 工具契约、可信执行、精确审批、幂等回执、故障语义与离线实验 |
 | [15 Skills 可复用技能](./15%20Skills%20%E5%8F%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E8%83%BD.md) | 可复用任务知识、流程与资源 |
 | [16 MCP 能力连接协议](./16%20MCP%20%E8%83%BD%E5%8A%9B%E8%BF%9E%E6%8E%A5%E5%8D%8F%E8%AE%AE.md) | 能力发现、连接与协议边界 |
 | [17 Connectors 与业务集成](./17%20Connectors%20%E4%B8%8E%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90.md) | 企业接口、字段、鉴权与回执 |
