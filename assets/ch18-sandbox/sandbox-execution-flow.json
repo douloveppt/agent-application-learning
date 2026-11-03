@@ -1,0 +1,245 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sandbox 任务：受控执行与成功交付",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      700
+    ]
+  },
+  "components": [
+    {
+      "id": "task",
+      "type": "frontend",
+      "label": "1 可信任务",
+      "sublabel": "身份 · 输入 · 预算",
+      "pos": [
+        60,
+        80
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "policy",
+      "type": "security",
+      "label": "2 授权与 Profile",
+      "sublabel": "固定策略 · 默认拒绝",
+      "pos": [
+        360,
+        80
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "create",
+      "type": "backend",
+      "label": "3 创建隔离环境",
+      "sublabel": "绑定任务 · 核验配置",
+      "pos": [
+        660,
+        80
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "run",
+      "type": "backend",
+      "label": "4 受限执行",
+      "sublabel": "文件 · 网络 · 资源",
+      "pos": [
+        960,
+        80
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "stop",
+      "type": "security",
+      "label": "5 停止并确认静止",
+      "sublabel": "全部进程 · 不再改写",
+      "pos": [
+        960,
+        340
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "inspect",
+      "type": "security",
+      "label": "6 收集并检查产物",
+      "sublabel": "可信暂存 · 格式与配额",
+      "pos": [
+        660,
+        340
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "destroy",
+      "type": "backend",
+      "label": "7 销毁并确认回收",
+      "sublabel": "环境 · 凭据 · 临时数据",
+      "pos": [
+        360,
+        340
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "publish",
+      "type": "database",
+      "label": "8 发布受控产物",
+      "sublabel": "租户归属 · 回执 · 完成",
+      "pos": [
+        60,
+        340
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "denied",
+      "type": "security",
+      "label": "拒绝执行",
+      "sublabel": "不分配运行环境",
+      "pos": [
+        360,
+        220
+      ],
+      "size": [
+        200,
+        60
+      ]
+    },
+    {
+      "id": "quarantine",
+      "type": "security",
+      "label": "隔离并待回收",
+      "sublabel": "清理未知 · 禁止复用",
+      "pos": [
+        360,
+        560
+      ],
+      "size": [
+        200,
+        70
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "task-policy",
+      "from": "task",
+      "to": "policy",
+      "variant": "emphasis"
+    },
+    {
+      "id": "policy-create",
+      "from": "policy",
+      "to": "create",
+      "variant": "emphasis"
+    },
+    {
+      "id": "create-run",
+      "from": "create",
+      "to": "run",
+      "variant": "emphasis"
+    },
+    {
+      "id": "run-stop",
+      "from": "run",
+      "to": "stop",
+      "variant": "emphasis",
+      "label": "执行结束",
+      "labelAt": [
+        1060,
+        250
+      ]
+    },
+    {
+      "id": "stop-inspect",
+      "from": "stop",
+      "to": "inspect",
+      "variant": "emphasis"
+    },
+    {
+      "id": "inspect-destroy",
+      "from": "inspect",
+      "to": "destroy",
+      "variant": "emphasis"
+    },
+    {
+      "id": "destroy-publish",
+      "from": "destroy",
+      "to": "publish",
+      "variant": "emphasis",
+      "label": "验收通过"
+    },
+    {
+      "id": "policy-denied",
+      "from": "policy",
+      "to": "denied",
+      "variant": "security"
+    },
+    {
+      "id": "destroy-quarantine",
+      "from": "destroy",
+      "to": "quarantine",
+      "variant": "security",
+      "label": "回收未确认",
+      "labelAt": [
+        460,
+        490
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "进程退出只是执行证据",
+      "items": [
+        "业务结果、产物验收和清理回执分别记录。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "可信交付在 Worker 之外",
+      "items": [
+        "停止后再收集；通过校验且确认回收后才发布。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "失败不放宽边界",
+      "items": [
+        "失败、超时、取消仍须回收，不进入成功发布；状态未知时隔离核实。"
+      ]
+    }
+  ]
+}
