@@ -32,6 +32,7 @@
 - **定位运行与业务事实**：[第二十八章可观测性与调试实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch28-observability)，观察运行关联、耗时分解、丢回执核实、Trace 缺失与完整指标分母。
 - **交付可恢复的生产版本**：[第三十章部署与 LLMOps 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch30-llmops)，观察发布组合、稳定灰度、证据门禁、代次保护与兼容性回退。
 - **评审模型适配候选**：[第三十一章模型适配实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch31-model-adaptation)，检查训练数据准入、跨集合泄漏、版本绑定、完整评测与安全硬门槛。
+- **管理数据与反馈闭环**：[第三十二章数据治理实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch32-data-governance)，演练可信用途、派生谱系、撤回阻断、逐项删除状态和反馈审核。
 
 ## 两种阅读方式
 
@@ -110,7 +111,7 @@
 | [29 性能、成本与模型路由](./29%20%E6%80%A7%E8%83%BD%E3%80%81%E6%88%90%E6%9C%AC%E4%B8%8E%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1.md) | 延迟、吞吐、费用与模型路由 |
 | [30 部署、版本与 LLMOps](./30%20%E9%83%A8%E7%BD%B2%E3%80%81%E7%89%88%E6%9C%AC%E4%B8%8E%20LLMOps.md) | 发布组合、兼容迁移、长任务共存、灰度门禁与业务恢复 |
 | [31 微调、蒸馏与模型适配](./31%20%E5%BE%AE%E8%B0%83%E3%80%81%E8%92%B8%E9%A6%8F%E4%B8%8E%E6%A8%A1%E5%9E%8B%E9%80%82%E9%85%8D.md) | 微调、蒸馏及模型行为适配 |
-| [32 数据治理与持续改进](./32%20%E6%95%B0%E6%8D%AE%E6%B2%BB%E7%90%86%E4%B8%8E%E6%8C%81%E7%BB%AD%E6%94%B9%E8%BF%9B.md) | 数据生命周期、反馈与持续改进 |
+| [32 数据治理与持续改进](./32%20%E6%95%B0%E6%8D%AE%E6%B2%BB%E7%90%86%E4%B8%8E%E6%8C%81%E7%BB%AD%E6%94%B9%E8%BF%9B.md) | 用途准入、资产谱系、保留删除、反馈审核与可验证改进 |
 
 ## 如何使用这套资料
 

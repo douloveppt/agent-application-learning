@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "数据治理与持续改进",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1080,
+      530
+    ]
+  },
+  "stages": [
+    {
+      "label": "来源与退出"
+    },
+    {
+      "label": "隔离与处理"
+    },
+    {
+      "label": "准入与控制"
+    },
+    {
+      "label": "谱系与核实"
+    },
+    {
+      "label": "使用与反馈"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "type": "external",
+      "label": "来源授权",
+      "sublabel": "用途依据与负责人",
+      "width": 136,
+      "stage": 0,
+      "row": 0,
+      "height": 64
+    },
+    {
+      "id": "minimize",
+      "type": "security",
+      "label": "隔离与最小化",
+      "sublabel": "分类、脱敏与范围控制",
+      "width": 136,
+      "stage": 1,
+      "row": 0,
+      "height": 64
+    },
+    {
+      "id": "admission",
+      "type": "security",
+      "label": "数据准入门禁",
+      "sublabel": "核查用途与撤回标记",
+      "width": 136,
+      "stage": 2,
+      "row": 0,
+      "height": 64
+    },
+    {
+      "id": "lineage",
+      "type": "database",
+      "label": "版本与派生谱系",
+      "sublabel": "记录来源、转换和消费者",
+      "width": 136,
+      "stage": 3,
+      "row": 0,
+      "height": 64
+    },
+    {
+      "id": "purpose",
+      "type": "backend",
+      "label": "按用途受控使用",
+      "sublabel": "知识／记忆／评测／训练",
+      "tag": "训练需要独立许可",
+      "width": 136,
+      "stage": 4,
+      "row": 0,
+      "height": 64
+    },
+    {
+      "id": "withdraw",
+      "type": "messagebus",
+      "label": "到期或撤回",
+      "sublabel": "冻结使用并写入墓碑",
+      "width": 136,
+      "stage": 0,
+      "row": 1,
+      "height": 64
+    },
+    {
+      "id": "feedback",
+      "type": "messagebus",
+      "label": "生产反馈隔离",
+      "sublabel": "反馈与模型输出先待核实",
+      "width": 136,
+      "stage": 4,
+      "row": 1,
+      "height": 64
+    },
+    {
+      "id": "verify",
+      "type": "security",
+      "label": "核实、标注与归因",
+      "sublabel": "业务证据与授权审核",
+      "width": 136,
+      "stage": 3,
+      "row": 1,
+      "height": 64
+    },
+    {
+      "id": "eval",
+      "type": "backend",
+      "label": "修复与独立评测",
+      "sublabel": "避免泄漏，检查关键切片",
+      "width": 136,
+      "stage": 3,
+      "row": 2,
+      "height": 64
+    },
+    {
+      "id": "release",
+      "type": "backend",
+      "label": "受控发布与观测",
+      "sublabel": "绑定版本，验证业务收益",
+      "width": 136,
+      "stage": 2,
+      "row": 2,
+      "height": 64
+    },
+    {
+      "id": "receipt",
+      "type": "database",
+      "label": "逐项删除核实",
+      "sublabel": "覆盖源数据与派生",
+      "width": 136,
+      "stage": 1,
+      "row": 1,
+      "height": 64
+    },
+    {
+      "id": "prevent",
+      "type": "security",
+      "label": "持续阻断回灌",
+      "sublabel": "撤回派生与训练清单",
+      "width": 136,
+      "stage": 2,
+      "row": 1,
+      "height": 64
+    }
+  ],
+  "flows": [
+    {
+      "id": "intake",
+      "from": "source",
+      "to": "minimize",
+      "label": "授权资产"
+    },
+    {
+      "id": "controlled-intake",
+      "from": "minimize",
+      "to": "admission",
+      "label": "最小化结果"
+    },
+    {
+      "id": "register",
+      "from": "admission",
+      "to": "lineage",
+      "label": "准入记录"
+    },
+    {
+      "id": "materialize",
+      "from": "lineage",
+      "to": "purpose",
+      "label": "版本化资产"
+    },
+    {
+      "id": "retire",
+      "from": "source",
+      "to": "withdraw",
+      "label": "撤回或到期"
+    },
+    {
+      "id": "feedback-collect",
+      "from": "purpose",
+      "to": "feedback",
+      "variant": "dashed",
+      "label": "授权采集"
+    },
+    {
+      "id": "review",
+      "from": "feedback",
+      "to": "verify",
+      "label": "核实反馈"
+    },
+    {
+      "id": "diagnose",
+      "from": "verify",
+      "to": "eval",
+      "label": "失败归因"
+    },
+    {
+      "id": "publish",
+      "from": "eval",
+      "to": "release",
+      "label": "独立评测通过"
+    },
+    {
+      "id": "observe",
+      "from": "release",
+      "to": "feedback",
+      "variant": "dashed",
+      "label": "持续观测",
+      "route": "bottom-channel"
+    },
+    {
+      "id": "delete-items",
+      "from": "withdraw",
+      "to": "receipt",
+      "variant": "security",
+      "label": "派生清单"
+    },
+    {
+      "id": "tombstone",
+      "from": "receipt",
+      "to": "prevent",
+      "variant": "security",
+      "label": "持续检查"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "授权持续生效",
+      "items": [
+        "访问时重查租户、用途和当前策略",
+        "服务用途不自动授权评测或训练"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "反馈经核实才转为资产",
+      "items": [
+        "模型自评不等于事实；先隔离与标注",
+        "发布后继续看业务收益和关键切片"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "删除结果必须如实说明",
+      "items": [
+        "保留要求未解除、备份待清理或模型待核实：partial",
+        "墓碑阻断旧版本回灌，不宣称模型已遗忘"
+      ]
+    }
+  ]
+}
