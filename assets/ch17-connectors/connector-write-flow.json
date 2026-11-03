@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "外部业务写入如何得到可信回执",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": "assets/ch17-connectors/connector-write-flow.html",
+    "legend": { "mode": "hidden" },
+    "viewBox": [920, 540]
+  },
+  "lanes": [
+    { "id": "entry", "label": "工具入口与信任边界" },
+    { "id": "execution", "label": "Connector 与外部业务系统" },
+    { "id": "unknown", "label": "结果未知与恢复", "variant": "exception" }
+  ],
+  "phases": [
+    { "id": "intake", "label": "接收", "fromCol": 0, "toCol": 0 },
+    { "id": "admission", "label": "建立可信上下文", "fromCol": 1, "toCol": 2, "variant": "security" },
+    { "id": "dispatch", "label": "记录并派发", "fromCol": 3, "toCol": 4, "variant": "emphasis" },
+    { "id": "confirm", "label": "确证", "fromCol": 5, "toCol": 5, "variant": "dashed" }
+  ],
+  "mainPath": [
+    "tool_request",
+    "trusted_context",
+    "contract_auth",
+    "operation_ledger",
+    "business_system",
+    "receipt_store",
+    "confirmed_result"
+  ],
+  "nodes": [
+    { "id": "tool_request", "lane": "entry", "col": 0, "type": "frontend", "label": "写入请求", "sublabel": "仅业务参数", "tag": "模型输入", "width": 64 },
+    { "id": "confirmed_result", "lane": "entry", "col": 5, "type": "backend", "label": "返回已确认结果", "sublabel": "业务资源 ID + 操作 ID", "tag": "可信完成" },
+    { "id": "trusted_context", "lane": "entry", "col": 1, "type": "security", "label": "可信身份", "sublabel": "用户与租户", "tag": "连接绑定", "width": 64 },
+    { "id": "contract_auth", "lane": "entry", "col": 2, "type": "security", "label": "契约授权", "sublabel": "当前判定", "tag": "服务端", "width": 64 },
+    { "id": "operation_ledger", "lane": "execution", "col": 3, "type": "database", "label": "操作台账", "sublabel": "ID + 摘要", "tag": "先落盘", "width": 54 },
+    { "id": "receipt_store", "lane": "execution", "col": 5, "type": "database", "label": "校验并保存", "sublabel": "资源 · 操作", "width": 72 },
+    { "id": "business_system", "lane": "execution", "col": 4, "type": "external", "label": "API", "sublabel": "写入", "width": 36 },
+    { "id": "unknown_state", "lane": "unknown", "col": 3, "type": "messagebus", "label": "结果未知", "sublabel": "调用后超时 / 回执异常", "tag": "不判失败 · 不重发", "width": 124 },
+    { "id": "reconcile", "lane": "unknown", "col": 5, "type": "backend", "label": "稳定标识核实", "sublabel": "操作 ID / 外部引用" }
+  ],
+  "edges": [
+    { "id": "request_context", "from": "tool_request", "to": "trusted_context", "variant": "security", "role": "main", "route": "up-channel" },
+    { "id": "context_contract", "from": "trusted_context", "to": "contract_auth", "variant": "security", "role": "main", "route": "bottom-channel" },
+    { "id": "authorized_prepare", "from": "contract_auth", "to": "operation_ledger", "label": "授权通过", "variant": "emphasis", "role": "main" },
+    { "id": "dispatch_external", "from": "operation_ledger", "to": "business_system", "variant": "default", "role": "main", "route": "bottom-channel" },
+    { "id": "external_receipt", "from": "business_system", "to": "receipt_store", "variant": "emphasis", "role": "return", "route": "up-channel" },
+    { "id": "receipt_confirmed", "from": "receipt_store", "to": "confirmed_result", "variant": "emphasis", "role": "return" },
+    { "id": "uncertain_outcome", "from": "business_system", "to": "unknown_state", "variant": "security", "role": "error" },
+    { "id": "start_reconcile", "from": "unknown_state", "to": "reconcile", "variant": "dashed", "role": "branch", "route": "straight" },
+    { "id": "recovered_receipt", "from": "reconcile", "to": "receipt_store", "label": "确认已存在", "variant": "emphasis", "role": "return", "labelDy": 12 }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "信任原则",
+      "items": [
+        "身份、租户和连接来自服务端可信上下文",
+        "授权在派发前按当前业务状态判定"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "一致性原则",
+      "items": [
+        "operation_id、参数摘要和 dispatched 状态在派发前持久化",
+        "结果未知时按稳定标识核实，禁止直接重发"
+      ]
+    }
+  ]
+}

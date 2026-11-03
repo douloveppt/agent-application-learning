@@ -21,6 +21,7 @@
 - **组织多个执行者**：[第十三章 Multi-Agent 协作实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch13-multi-agent)，观察委派结果校验、证据冲突、重复与迟到、权限边界和父层预算。
 - **受控执行工具**：[第十四章 Tools 与 Function Calling 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch14-tool-calling)，观察严格参数边界、本人数据隔离、精确审批、重复提交回执与未知结果核实。
 - **复用专业任务方法**：[第十五章 Skills 离线实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch15-skills)，观察技能准入、按需加载、资源内容锁、分支澄清与权限边界。
+- **连接真实业务系统**：[第十七章 Connectors 离线实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch17-connectors)，观察租户绑定、可信身份、提交超时、回执校验与重启核实。
 
 ## 两种阅读方式
 
@@ -68,7 +69,7 @@
 | [14 Tools 与 Function Calling](./14%20Tools%20%E4%B8%8E%20Function%20Calling.md) | 工具契约、可信执行、精确审批、幂等回执、故障语义与离线实验 |
 | [15 Skills 可复用技能](./15%20Skills%20%E5%8F%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E8%83%BD.md) | 任务合同、发现与渐进加载、可信执行、效果评测与版本治理 |
 | [16 MCP 能力连接协议](./16%20MCP%20%E8%83%BD%E5%8A%9B%E8%BF%9E%E6%8E%A5%E5%8D%8F%E8%AE%AE.md) | 能力发现、连接与协议边界 |
-| [17 Connectors 与业务集成](./17%20Connectors%20%E4%B8%8E%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90.md) | 企业接口、字段、鉴权与回执 |
+| [17 Connectors 与业务集成](./17%20Connectors%20%E4%B8%8E%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90.md) | 业务契约、身份凭据、分页同步、Webhook、写入回执与企业交付 |
 | [18 Sandbox 沙箱](./18%20Sandbox%20%E6%B2%99%E7%AE%B1.md) | 文件、网络、进程与资源隔离 |
 | [19 浏览器与桌面自动化](./19%20%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8E%E6%A1%8C%E9%9D%A2%E8%87%AA%E5%8A%A8%E5%8C%96.md) | 网页和桌面中的观察、行动与核验 |
 | [33 Coding Agent 与软件工程任务](./33%20Coding%20Agent%20%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1.md) | 仓库理解、代码修改、测试与交付 |
