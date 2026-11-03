@@ -1,0 +1,230 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "企业 Agent 的发布与恢复路径",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1370,
+      570
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      40,
+      150
+    ],
+    "cols": 7,
+    "gapX": 40,
+    "gapY": 145,
+    "cellW": 150,
+    "cellH": 84
+  },
+  "components": [
+    {
+      "id": "seal",
+      "type": "database",
+      "label": "01 确定变更组合",
+      "sublabel": "候选范围与依赖",
+      "row": 0,
+      "col": 0,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "build",
+      "type": "backend",
+      "label": "02 构建封存制品",
+      "sublabel": "内容摘要与安全验证",
+      "row": 0,
+      "col": 1,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "03 兼容评测门禁",
+      "sublabel": "证据不足则暂停",
+      "row": 0,
+      "col": 2,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "rehearse",
+      "type": "cloud",
+      "label": "04 测试环境演练",
+      "sublabel": "恢复与排空验证",
+      "row": 0,
+      "col": 3,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "canary",
+      "type": "frontend",
+      "label": "05 小流量灰度",
+      "sublabel": "稳定分配新任务",
+      "row": 0,
+      "col": 4,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "observe",
+      "type": "backend",
+      "label": "06 观察真实结果",
+      "sublabel": "质量、延迟与成本",
+      "row": 0,
+      "col": 5,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "activate",
+      "type": "cloud",
+      "label": "07 全量激活",
+      "sublabel": "继续监测与值守",
+      "row": 0,
+      "col": 6,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "halt",
+      "type": "security",
+      "label": "停止新流量",
+      "sublabel": "隔离影响并核实",
+      "row": 1,
+      "col": 5,
+      "size": [
+        150,
+        84
+      ]
+    },
+    {
+      "id": "recover",
+      "type": "messagebus",
+      "label": "兼容后恢复",
+      "sublabel": "选择回退或前滚",
+      "row": 1,
+      "col": 6,
+      "size": [
+        150,
+        84
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "准备和验证 · 证据不足则暂停",
+      "wraps": [
+        "seal",
+        "build",
+        "gate",
+        "rehearse"
+      ],
+      "pad": 16
+    },
+    {
+      "kind": "region",
+      "label": "生产激活 · 观察真实任务",
+      "wraps": [
+        "canary",
+        "observe",
+        "activate"
+      ],
+      "pad": 16
+    },
+    {
+      "kind": "security-group",
+      "label": "异常恢复 · 先核实兼容性",
+      "wraps": [
+        "halt",
+        "recover"
+      ],
+      "pad": 16
+    }
+  ],
+  "connections": [
+    {
+      "from": "seal",
+      "to": "build"
+    },
+    {
+      "from": "build",
+      "to": "gate"
+    },
+    {
+      "from": "gate",
+      "to": "rehearse",
+      "variant": "emphasis"
+    },
+    {
+      "from": "rehearse",
+      "to": "canary",
+      "variant": "emphasis"
+    },
+    {
+      "from": "canary",
+      "to": "observe"
+    },
+    {
+      "from": "observe",
+      "to": "activate",
+      "label": "达标",
+      "variant": "emphasis"
+    },
+    {
+      "from": "observe",
+      "to": "halt",
+      "label": "异常",
+      "variant": "security",
+      "labelAt": [
+        1065,
+        275
+      ]
+    },
+    {
+      "from": "halt",
+      "to": "recover",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "版本切换的作用范围",
+      "items": [
+        "切换默认只决定新任务的版本",
+        "进行中任务固定原版本，迁移另行验证"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "恢复前必须核实",
+      "items": [
+        "检查状态、数据库与索引的兼容性",
+        "业务副作用单独核实，未知写入不自动重发"
+      ]
+    }
+  ]
+}
