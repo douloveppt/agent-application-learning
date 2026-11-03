@@ -33,6 +33,7 @@
 - **交付可恢复的生产版本**：[第三十章部署与 LLMOps 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch30-llmops)，观察发布组合、稳定灰度、证据门禁、代次保护与兼容性回退。
 - **评审模型适配候选**：[第三十一章模型适配实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch31-model-adaptation)，检查训练数据准入、跨集合泄漏、版本绑定、完整评测与安全硬门槛。
 - **管理数据与反馈闭环**：[第三十二章数据治理实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch32-data-governance)，演练可信用途、派生谱系、撤回阻断、逐项删除状态和反馈审核。
+- **交付可审查代码**：[第三十三章 Coding Agent 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch33-coding-agent)，演练多租户缺陷验收、范围与测试完整性、候选版本绑定和环境阻塞。
 
 ## 两种阅读方式
 
@@ -83,7 +84,7 @@
 | [17 Connectors 与业务集成](./17%20Connectors%20%E4%B8%8E%E4%B8%9A%E5%8A%A1%E9%9B%86%E6%88%90.md) | 业务契约、身份凭据、分页同步、Webhook、写入回执与企业交付 |
 | [18 Sandbox 沙箱](./18%20Sandbox%20%E6%B2%99%E7%AE%B1.md) | 威胁模型、执行 Profile、文件网络与资源边界、回收及产物验收 |
 | [19 浏览器与桌面自动化](./19%20%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%8E%E6%A1%8C%E9%9D%A2%E8%87%AA%E5%8A%A8%E5%8C%96.md) | 入口选择、语义定位、桌面焦点、会话授权、未知结果核实与浏览器实验 |
-| [33 Coding Agent 与软件工程任务](./33%20Coding%20Agent%20%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1.md) | 仓库理解、代码修改、测试与交付 |
+| [33 Coding Agent 与软件工程任务](./33%20Coding%20Agent%20%E4%B8%8E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E4%BB%BB%E5%8A%A1.md) | 任务合同、隔离开发、可信验收、版本证据、PR 与企业平台 |
 
 ### E · 身份、安全与人工控制
 
