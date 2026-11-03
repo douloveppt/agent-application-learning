@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Agent 工具执行前的安全闸门",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1360,
+      590
+    ]
+  },
+  "components": [
+    {
+      "id": "call",
+      "type": "backend",
+      "label": "模型提出调用",
+      "sublabel": "只提供动作建议",
+      "pos": [
+        40,
+        65
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "schema",
+      "type": "security",
+      "label": "严格参数校验",
+      "sublabel": "类型与枚举",
+      "pos": [
+        310,
+        65
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "auth",
+      "type": "security",
+      "label": "身份与资源授权",
+      "sublabel": "可信主体与租户",
+      "pos": [
+        580,
+        65
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "risk",
+      "type": "security",
+      "label": "风险策略判定",
+      "sublabel": "动作与数据等级",
+      "pos": [
+        850,
+        65
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "reject",
+      "type": "security",
+      "label": "拒绝调用",
+      "sublabel": "不启动外部请求",
+      "pos": [
+        580,
+        225
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "approval",
+      "type": "security",
+      "label": "适用时绑定审批",
+      "sublabel": "绑定具体动作",
+      "pos": [
+        850,
+        410
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "recheck",
+      "type": "security",
+      "label": "执行前复核",
+      "sublabel": "权限版本有效期",
+      "pos": [
+        580,
+        410
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "execute",
+      "type": "backend",
+      "label": "受限执行",
+      "sublabel": "限制凭证与出站",
+      "pos": [
+        310,
+        410
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "waiting",
+      "type": "messagebus",
+      "label": "等待审批",
+      "sublabel": "持久化后暂停",
+      "pos": [
+        1130,
+        410
+      ],
+      "size": [
+        170,
+        74
+      ]
+    },
+    {
+      "id": "output",
+      "type": "database",
+      "label": "结果过滤与审计",
+      "sublabel": "过滤回执留证据",
+      "pos": [
+        40,
+        410
+      ],
+      "size": [
+        170,
+        74
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "suggest",
+      "from": "call",
+      "to": "schema"
+    },
+    {
+      "id": "typed",
+      "from": "schema",
+      "to": "auth"
+    },
+    {
+      "id": "authorized",
+      "from": "auth",
+      "to": "risk"
+    },
+    {
+      "id": "policy",
+      "from": "risk",
+      "to": "approval",
+      "variant": "emphasis"
+    },
+    {
+      "id": "grant",
+      "from": "approval",
+      "to": "recheck",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dispatch",
+      "from": "recheck",
+      "to": "execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "receipt",
+      "from": "execute",
+      "to": "output",
+      "variant": "emphasis"
+    },
+    {
+      "id": "bad-schema",
+      "from": "schema",
+      "to": "reject",
+      "label": "参数无效",
+      "variant": "security"
+    },
+    {
+      "id": "unauthorized",
+      "from": "auth",
+      "to": "reject",
+      "label": "无权限",
+      "variant": "security",
+      "labelAt": [
+        700,
+        175
+      ]
+    },
+    {
+      "id": "need-human",
+      "from": "approval",
+      "to": "waiting",
+      "label": "尚未批准",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "violet",
+      "title": "信任边界",
+      "items": [
+        "模型建议、外部文档与工具返回都不能授予权限",
+        "授权依据来自已验证身份、业务状态和服务端策略"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "策略结果",
+      "items": [
+        "允许、拒绝、等待审批或降级为只读／草稿",
+        "降级动作也必须重新经过授权与参数校验"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "未知写结果",
+      "items": [
+        "业务写请求已发出但无回执时，先查询核实",
+        "审批成功不等于写入成功；不得自动重发"
+      ]
+    }
+  ]
+}

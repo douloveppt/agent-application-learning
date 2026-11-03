@@ -1,0 +1,34 @@
+{
+  "diagram_type": "architecture",
+  "subject": "Agent 工具执行前的安全闸门",
+  "validation": {
+    "checks_passed": 9,
+    "check_count": 9,
+    "profile": "showcase",
+    "errors": 0,
+    "warnings": 0
+  },
+  "desktop_containment": {
+    "1440x900": "passed",
+    "1600x1000": "passed",
+    "1920x1080": "passed",
+    "2048x1320": "passed"
+  },
+  "visual_review": "passed: light 1440x900 and dark 2048x1320 inspected",
+  "svg_export": "native viewer SVG export; automatic light/dark theme",
+  "files": {
+    "tool-security-gates.architecture.json": {
+      "sha256": "b42e60188540158c3bb1d106bdad0e1c2690ee42a24564ba54057a6d48ceaaae",
+      "bytes": 4507
+    },
+    "tool-security-gates.html": {
+      "sha256": "be80863a6c3c551367993e7125673fe043e4485bf0519e0b6a9c13ced28e923a",
+      "bytes": 711698
+    },
+    "tool-security-gates.svg": {
+      "sha256": "68b026bbdbac3bdca42b9ca5c1813387de858332807f45c5bd843a5cf1e4cb60",
+      "bytes": 55009
+    }
+  },
+  "svg_postprocess": "Removed trailing CSS keyframe whitespace only; SVG geometry and text unchanged."
+}
