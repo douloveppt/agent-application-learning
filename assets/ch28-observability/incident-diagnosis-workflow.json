@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "从异常信号到可核实的诊断",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      370
+    ]
+  },
+  "lanes": [
+    {
+      "id": "locate",
+      "label": "定位：先确定受影响的业务运行"
+    },
+    {
+      "id": "verify",
+      "label": "核实：区分执行事实、业务结果与证据缺口"
+    }
+  ],
+  "mainPath": [
+    "impact",
+    "identity",
+    "timeline",
+    "receipt"
+  ],
+  "nodes": [
+    {
+      "id": "impact",
+      "lane": "locate",
+      "col": 1,
+      "type": "messagebus",
+      "label": "确认影响与时间窗",
+      "sublabel": "任务类型、版本、分母",
+      "width": 160
+    },
+    {
+      "id": "identity",
+      "lane": "locate",
+      "col": 3,
+      "type": "database",
+      "label": "定位运行与尝试",
+      "sublabel": "Run → Attempt → Trace",
+      "width": 160
+    },
+    {
+      "id": "timeline",
+      "lane": "locate",
+      "col": 5,
+      "type": "backend",
+      "label": "还原执行时间线",
+      "sublabel": "排队、模型、检索、工具",
+      "width": 104
+    },
+    {
+      "id": "receipt",
+      "lane": "verify",
+      "col": 5,
+      "type": "security",
+      "label": "核实外部业务结果",
+      "sublabel": "操作身份、回执、只读查询",
+      "width": 104
+    },
+    {
+      "id": "conclusion",
+      "lane": "verify",
+      "col": 3,
+      "type": "backend",
+      "label": "记录结论与缺口",
+      "sublabel": "已证实、待核实、不可判断",
+      "width": 160
+    },
+    {
+      "id": "regression",
+      "lane": "verify",
+      "col": 1,
+      "type": "database",
+      "label": "修复并保留回归",
+      "sublabel": "复验业务与观测链路",
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "from": "impact",
+      "to": "identity",
+      "role": "main"
+    },
+    {
+      "from": "identity",
+      "to": "timeline",
+      "role": "main"
+    },
+    {
+      "from": "timeline",
+      "to": "receipt",
+      "role": "main",
+      "label": "涉及写入",
+      "variant": "security"
+    },
+    {
+      "from": "receipt",
+      "to": "conclusion",
+      "role": "return"
+    },
+    {
+      "from": "conclusion",
+      "to": "regression",
+      "role": "return",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "缺证据时保留未知",
+      "items": [
+        "超时和取消不能证明外部未执行；没有 Trace 不能证明没有调用。",
+        "诊断结论说明依据与缺口；恢复动作继续遵守原有权限和审批。"
+      ]
+    }
+  ]
+}

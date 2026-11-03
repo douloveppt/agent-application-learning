@@ -29,6 +29,7 @@
 - **承载企业后台任务**：[第二十五章后端与调度实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch25-backend-scheduling)，验证持久接收、并发领取、租约接手、取消竞态与正式产物归属。
 - **保障外部业务结果**：[第二十六章可靠性与副作用一致性实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch26-reliability)，观察两库事务、操作与消息去重、丢回执恢复，以及未知结果的只读核实。
 - **验证质量与发布判断**：[第二十七章测试、Evals 与质量门禁实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch27-evals)，观察独立状态评分、分组配对与安全违规优先阻断。
+- **定位运行与业务事实**：[第二十八章可观测性与调试实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch28-observability)，观察运行关联、耗时分解、丢回执核实、Trace 缺失与完整指标分母。
 
 ## 两种阅读方式
 
@@ -103,7 +104,7 @@
 | 专题 | 重点 |
 | --- | --- |
 | [27 测试、Evals 与质量门禁](./27%20%E6%B5%8B%E8%AF%95%E3%80%81Evals%20%E4%B8%8E%E8%B4%A8%E9%87%8F%E9%97%A8%E7%A6%81.md) | 成功合同、可信评测、评审校准、统计比较与发布门禁 |
-| [28 可观测性与调试](./28%20%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E4%B8%8E%E8%B0%83%E8%AF%95.md) | Trace、日志、指标与失败定位 |
+| [28 可观测性与调试](./28%20%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E4%B8%8E%E8%B0%83%E8%AF%95.md) | 运行关联、业务证据、指标告警、采样治理与诊断实验 |
 | [29 性能、成本与模型路由](./29%20%E6%80%A7%E8%83%BD%E3%80%81%E6%88%90%E6%9C%AC%E4%B8%8E%E6%A8%A1%E5%9E%8B%E8%B7%AF%E7%94%B1.md) | 延迟、吞吐、费用与模型路由 |
 | [30 部署、版本与 LLMOps](./30%20%E9%83%A8%E7%BD%B2%E3%80%81%E7%89%88%E6%9C%AC%E4%B8%8E%20LLMOps.md) | 版本、灰度、部署与回滚 |
 | [31 微调、蒸馏与模型适配](./31%20%E5%BE%AE%E8%B0%83%E3%80%81%E8%92%B8%E9%A6%8F%E4%B8%8E%E6%A8%A1%E5%9E%8B%E9%80%82%E9%85%8D.md) | 微调、蒸馏及模型行为适配 |
