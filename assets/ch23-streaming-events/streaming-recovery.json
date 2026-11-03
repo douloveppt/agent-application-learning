@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "断线后的安全恢复时序",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "column_fit": "spread",
+    "viewBox": [
+      1040,
+      480
+    ]
+  },
+  "participants": [
+    {
+      "id": "browser",
+      "type": "frontend",
+      "label": "浏览器",
+      "sublabel": "本地投影与游标"
+    },
+    {
+      "id": "task_api",
+      "type": "backend",
+      "label": "任务 API",
+      "sublabel": "鉴权与事件订阅"
+    },
+    {
+      "id": "event_log",
+      "type": "database",
+      "label": "事件日志",
+      "sublabel": "有序持久记录"
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Worker",
+      "sublabel": "独立执行任务"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 260,
+      "label": "恢复快照"
+    },
+    {
+      "from": 268,
+      "to": 416,
+      "label": "回放与实时"
+    }
+  ],
+  "messages": [
+    {
+      "id": "snapshot_request",
+      "from": "browser",
+      "to": "task_api",
+      "y": 165,
+      "label": "GET snapshot · 验证权限",
+      "variant": "security"
+    },
+    {
+      "id": "snapshot_read",
+      "from": "task_api",
+      "to": "event_log",
+      "y": 193,
+      "label": "读取一致快照与水位 H"
+    },
+    {
+      "id": "snapshot_return",
+      "from": "event_log",
+      "to": "task_api",
+      "y": 221,
+      "label": "投影状态 + last_seq = H",
+      "variant": "return"
+    },
+    {
+      "id": "snapshot_apply",
+      "from": "task_api",
+      "to": "browser",
+      "y": 249,
+      "label": "替换本地投影，游标设为 H",
+      "variant": "return"
+    },
+    {
+      "id": "subscribe",
+      "from": "browser",
+      "to": "task_api",
+      "y": 277,
+      "label": "订阅 after = H · 再次鉴权",
+      "variant": "security"
+    },
+    {
+      "id": "tail_log",
+      "from": "task_api",
+      "to": "event_log",
+      "y": 305,
+      "label": "按 seq 读取 H 后的事件"
+    },
+    {
+      "id": "concurrent_commit",
+      "from": "worker",
+      "to": "event_log",
+      "y": 333,
+      "label": "新事件先持久化再可见",
+      "variant": "emphasis"
+    },
+    {
+      "id": "ordered_events",
+      "from": "event_log",
+      "to": "task_api",
+      "y": 361,
+      "label": "有序读取历史与新提交事件",
+      "variant": "return"
+    },
+    {
+      "id": "replay",
+      "from": "task_api",
+      "to": "browser",
+      "y": 389,
+      "label": "SSE 回放后持续实时传递",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "恢复观察",
+      "items": [
+        "重连不触发任务重新执行",
+        "游标过期时先获取新快照"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "接缝不漏事件",
+      "items": [
+        "快照与水位属于同一一致视图",
+        "追平与实时沿用同一日志游标"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "取消需要确认",
+      "items": [
+        "取消走独立命令并等待终态确认",
+        "外部写入结果未知时先核对"
+      ]
+    }
+  ]
+}
