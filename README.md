@@ -31,6 +31,7 @@
 - **验证质量与发布判断**：[第二十七章测试、Evals 与质量门禁实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch27-evals)，观察独立状态评分、分组配对与安全违规优先阻断。
 - **定位运行与业务事实**：[第二十八章可观测性与调试实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch28-observability)，观察运行关联、耗时分解、丢回执核实、Trace 缺失与完整指标分母。
 - **交付可恢复的生产版本**：[第三十章部署与 LLMOps 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch30-llmops)，观察发布组合、稳定灰度、证据门禁、代次保护与兼容性回退。
+- **评审模型适配候选**：[第三十一章模型适配实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch31-model-adaptation)，检查训练数据准入、跨集合泄漏、版本绑定、完整评测与安全硬门槛。
 
 ## 两种阅读方式
 
