@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "人工审批如何安全地进入执行",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1360,
+      620
+    ]
+  },
+  "components": [
+    {
+      "id": "freeze-action",
+      "type": "backend",
+      "label": "冻结具体动作",
+      "sublabel": "目标、参数、资源版本",
+      "pos": [
+        60,
+        40
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "persist-request",
+      "type": "database",
+      "label": "保存审批任务",
+      "sublabel": "revision、期限、审批规则",
+      "pos": [
+        385,
+        40
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "human-review",
+      "type": "frontend",
+      "label": "人工审阅预览",
+      "sublabel": "展示影响与原始证据",
+      "pos": [
+        710,
+        40
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "revise-action",
+      "type": "backend",
+      "label": "编辑形成新版本",
+      "sublabel": "旧版本与旧批准失效",
+      "pos": [
+        1035,
+        40
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "persist-decision",
+      "type": "database",
+      "label": "原子保存决定",
+      "sublabel": "身份、版本、并发与去重",
+      "pos": [
+        710,
+        240
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "execution-gate",
+      "type": "security",
+      "label": "执行前再次校验",
+      "sublabel": "当前权限、期限、对象版本",
+      "pos": [
+        385,
+        240
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "dispatch-action",
+      "type": "backend",
+      "label": "保存意图后派发",
+      "sublabel": "稳定 operation_id 与执行账本",
+      "pos": [
+        60,
+        240
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "confirmed-result",
+      "type": "external",
+      "label": "保存确定回执",
+      "sublabel": "业务完成与审批通过分开",
+      "pos": [
+        60,
+        440
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "reconcile-result",
+      "type": "backend",
+      "label": "未知结果只读核实",
+      "sublabel": "保留原操作身份，不盲目重发",
+      "pos": [
+        385,
+        440
+      ],
+      "size": [
+        240,
+        88
+      ]
+    },
+    {
+      "id": "close-request",
+      "type": "database",
+      "label": "关闭当前审批",
+      "sublabel": "拒绝或过期，不产生新副作用",
+      "pos": [
+        710,
+        440
+      ],
+      "size": [
+        240,
+        88
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "freeze-to-persist",
+      "from": "freeze-action",
+      "to": "persist-request",
+      "variant": "emphasis"
+    },
+    {
+      "id": "persist-to-review",
+      "from": "persist-request",
+      "to": "human-review",
+      "variant": "emphasis"
+    },
+    {
+      "id": "review-to-edit",
+      "from": "human-review",
+      "to": "revise-action",
+      "label": "编辑",
+      "variant": "dashed"
+    },
+    {
+      "id": "review-to-decision",
+      "from": "human-review",
+      "to": "persist-decision",
+      "label": "提交决定",
+      "variant": "emphasis",
+      "labelDy": 80
+    },
+    {
+      "id": "decision-to-gate",
+      "from": "persist-decision",
+      "to": "execution-gate",
+      "label": "获批",
+      "variant": "emphasis"
+    },
+    {
+      "id": "decision-to-close",
+      "from": "persist-decision",
+      "to": "close-request",
+      "label": "拒绝／过期",
+      "variant": "dashed",
+      "labelDy": 80
+    },
+    {
+      "id": "gate-to-dispatch",
+      "from": "execution-gate",
+      "to": "dispatch-action",
+      "label": "仍有效",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dispatch-to-receipt",
+      "from": "dispatch-action",
+      "to": "confirmed-result",
+      "label": "确定结果",
+      "variant": "emphasis",
+      "labelDy": 80
+    },
+    {
+      "id": "dispatch-to-unknown",
+      "from": "dispatch-action",
+      "to": "reconcile-result",
+      "label": "缺少回执",
+      "variant": "dashed"
+    },
+    {
+      "id": "reconcile-to-receipt",
+      "from": "reconcile-result",
+      "to": "confirmed-result",
+      "label": "查询已完成",
+      "variant": "emphasis",
+      "labelDy": 40
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "人工决定有准确范围",
+      "items": [
+        "编辑后创建新 revision，重新进入审批",
+        "通知只负责提醒；审批台读取服务端当前版本"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "批准后仍须通过执行闸门",
+      "items": [
+        "撤权、过期、策略或对象变化时停止执行",
+        "审批通过不等于业务成功；以确定回执为准"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "恢复保留未知结果",
+      "items": [
+        "已经保存派发意图的操作，恢复时先核实",
+        "查不到确定事实时继续保留未知并交人工处理"
+      ]
+    }
+  ]
+}

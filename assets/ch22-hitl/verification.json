@@ -1,0 +1,59 @@
+{
+  "diagram_type": "architecture",
+  "purpose": "Human approval workflow expressed with architecture nodes for readable Chinese labels",
+  "validation": {
+    "checks_passed": 9,
+    "check_count": 9,
+    "profile": "showcase",
+    "errors": 0,
+    "warnings": 0
+  },
+  "visual_review": "passed",
+  "visual_correction_rounds": 1,
+  "visual_inspection": [
+    "1440x900 light",
+    "2048x1320 dark"
+  ],
+  "containment": [
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow_x": false,
+      "overflow_y": false
+    },
+    {
+      "width": 1600,
+      "height": 1000,
+      "overflow_x": false,
+      "overflow_y": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "overflow_x": false,
+      "overflow_y": false
+    },
+    {
+      "width": 2048,
+      "height": 1320,
+      "overflow_x": false,
+      "overflow_y": false
+    }
+  ],
+  "svg_export": "Native viewer SVG export; canonical state clean; automatic light/dark theme",
+  "svg_postprocess": "Removed trailing CSS keyframe whitespace only; SVG geometry and text unchanged.",
+  "files": {
+    "approval-execution.architecture.json": {
+      "sha256": "3c72370fecfd7e3c23ac8f6242c43ca0a309c0243e3c186483afc7c6fd1264b7",
+      "bytes": 5298
+    },
+    "approval-execution.html": {
+      "sha256": "060535e799d7051b2d728be54994ec73b5f5086ced63fc30ae2469ba3ccc88f1",
+      "bytes": 715137
+    },
+    "approval-execution.svg": {
+      "sha256": "c5f6ac3b4f0f4cfb29a80f627e76c65e4bbf404f48df5ca2877e7cc5883fcb81",
+      "bytes": 58258
+    }
+  }
+}
