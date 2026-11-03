@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业 Agent 的质量闭环",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      350
+    ]
+  },
+  "lanes": [
+    {
+      "id": "evaluate",
+      "label": "离线评测：定义成功、固定基线、核验结果"
+    },
+    {
+      "id": "operate",
+      "label": "发布闭环：受控灰度、核实反馈、保留回归"
+    }
+  ],
+  "mainPath": [
+    "contract",
+    "execute",
+    "decision",
+    "canary"
+  ],
+  "nodes": [
+    {
+      "id": "contract",
+      "lane": "evaluate",
+      "col": 1,
+      "type": "database",
+      "label": "成功合同与评测集",
+      "sublabel": "业务目标、分层、留出",
+      "width": 160
+    },
+    {
+      "id": "execute",
+      "lane": "evaluate",
+      "col": 3,
+      "type": "backend",
+      "label": "隔离执行与分层评分",
+      "sublabel": "状态、关键轨迹、语义",
+      "width": 160
+    },
+    {
+      "id": "decision",
+      "lane": "evaluate",
+      "col": 5,
+      "type": "security",
+      "label": "比较与门禁",
+      "sublabel": "配对、分组、证据",
+      "width": 104
+    },
+    {
+      "id": "blocked",
+      "lane": "operate",
+      "col": 1,
+      "type": "security",
+      "label": "阻断或人工复核",
+      "sublabel": "违规、缺证据、判断未定",
+      "width": 160
+    },
+    {
+      "id": "feedback",
+      "lane": "operate",
+      "col": 3,
+      "type": "database",
+      "label": "核实并治理生产样本",
+      "sublabel": "脱敏、标注、更新回归",
+      "width": 160
+    },
+    {
+      "id": "canary",
+      "lane": "operate",
+      "col": 5,
+      "type": "cloud",
+      "label": "受控灰度",
+      "sublabel": "观测、停止、回退",
+      "width": 104
+    }
+  ],
+  "edges": [
+    {
+      "from": "contract",
+      "to": "execute",
+      "role": "main",
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "from": "execute",
+      "to": "decision",
+      "role": "main",
+      "fromSide": "right",
+      "toSide": "left",
+      "route": "straight"
+    },
+    {
+      "from": "decision",
+      "to": "canary",
+      "label": "达标",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "from": "decision",
+      "to": "blocked",
+      "label": "阻断／待定",
+      "role": "error",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "left",
+      "via": [
+        [
+          625,
+          40
+        ],
+        [
+          25,
+          40
+        ],
+        [
+          25,
+          243
+        ]
+      ],
+      "labelAt": [
+        400,
+        30
+      ]
+    },
+    {
+      "from": "canary",
+      "to": "feedback",
+      "label": "抽样",
+      "role": "return"
+    },
+    {
+      "from": "feedback",
+      "to": "contract",
+      "label": "下一版",
+      "role": "return",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "bottom",
+      "via": [
+        [
+          325,
+          243
+        ],
+        [
+          325,
+          180
+        ],
+        [
+          220,
+          180
+        ]
+      ],
+      "labelAt": [
+        270,
+        180
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "先检查证据，再决定发布",
+      "items": [
+        "状态与轨迹来自可信环境；Agent 自述不能证明完成。",
+        "缺用例、评分错误、缺证据均阻断；安全失败不能被平均分抵消。"
+      ]
+    }
+  ]
+}
