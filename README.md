@@ -24,6 +24,7 @@
 - **连接真实业务系统**：[第十七章 Connectors 离线实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch17-connectors)，观察租户绑定、可信身份、提交超时、回执校验与重启核实。
 - **限制代码执行边界**：[第十八章 Sandbox 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch18-sandbox)，演练可信任务准入、停止与回收、产物检查，并用可选 Docker 固定探针验证部分实际限制。
 - **完成界面业务操作**：[第十九章浏览器自动化实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch19-browser-automation)，用真实 Chromium 验证语义定位、具体授权、登录变化、提交断链与只读核实。
+- **验证身份与数据边界**：[第二十章身份权限实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch20-identity)，演练可信身份、跨租户与同租户越权、具体审批、排队撤权，以及检索、Memory 和缓存隔离。
 
 ## 两种阅读方式
 
@@ -80,7 +81,7 @@
 
 | 专题 | 重点 |
 | --- | --- |
-| [20 身份、权限与多租户](./20%20%E8%BA%AB%E4%BB%BD%E3%80%81%E6%9D%83%E9%99%90%E4%B8%8E%E5%A4%9A%E7%A7%9F%E6%88%B7.md) | 身份、委托、授权与租户隔离 |
+| [20 身份、权限与多租户](./20%20%E8%BA%AB%E4%BB%BD%E3%80%81%E6%9D%83%E9%99%90%E4%B8%8E%E5%A4%9A%E7%A7%9F%E6%88%B7.md) | 可信身份、权限决策、数据隔离、受限委托、审批撤权与离线验收 |
 | [21 安全与 Guardrails](./21%20%E5%AE%89%E5%85%A8%E4%B8%8E%20Guardrails.md) | 信任边界、注入防护与行为约束 |
 | [22 Human-in-the-loop](./22%20Human-in-the-loop.md) | 澄清、预览、审批、接管与恢复 |
 

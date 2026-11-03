@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业 Agent 的身份与授权链路",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      728,
+      466
+    ]
+  },
+  "lanes": [
+    {
+      "id": "entry",
+      "label": "请求与委托"
+    },
+    {
+      "id": "identity",
+      "label": "凭证与动作"
+    },
+    {
+      "id": "policy",
+      "label": "范围与决策"
+    }
+  ],
+  "mainPath": [
+    "request",
+    "authenticate",
+    "membership",
+    "delegate",
+    "candidate",
+    "recheck",
+    "consent",
+    "scoped",
+    "receipt"
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "entry",
+      "col": 0,
+      "type": "frontend",
+      "label": "接收用户请求",
+      "sublabel": "服务端绑定身份",
+      "width": 96
+    },
+    {
+      "id": "authenticate",
+      "lane": "identity",
+      "col": 0,
+      "type": "security",
+      "label": "验证用户凭证",
+      "sublabel": "签发方与有效期",
+      "width": 96
+    },
+    {
+      "id": "membership",
+      "lane": "policy",
+      "col": 0,
+      "type": "database",
+      "label": "绑定当前租户",
+      "sublabel": "有效成员关系",
+      "width": 96
+    },
+    {
+      "id": "delegate",
+      "lane": "entry",
+      "col": 2,
+      "type": "security",
+      "label": "建立受限委托",
+      "sublabel": "动作资源与期限",
+      "width": 96
+    },
+    {
+      "id": "candidate",
+      "lane": "identity",
+      "col": 2,
+      "type": "backend",
+      "label": "生成动作候选",
+      "sublabel": "RAG 或工具请求",
+      "width": 140
+    },
+    {
+      "id": "recheck",
+      "lane": "policy",
+      "col": 2,
+      "type": "security",
+      "label": "重验当前权限",
+      "sublabel": "含队列与恢复任务",
+      "width": 140
+    },
+    {
+      "id": "reject",
+      "lane": "policy",
+      "col": 5,
+      "type": "security",
+      "label": "拒绝并留痕",
+      "sublabel": "失效越权与冲突",
+      "width": 92
+    },
+    {
+      "id": "consent",
+      "lane": "entry",
+      "col": 4,
+      "type": "security",
+      "label": "核对动作审批",
+      "sublabel": "按策略绑定具体参数",
+      "width": 140
+    },
+    {
+      "id": "scoped",
+      "lane": "identity",
+      "col": 4,
+      "type": "database",
+      "label": "执行受限操作",
+      "sublabel": "tenant 范围与原子条件",
+      "width": 140
+    },
+    {
+      "id": "receipt",
+      "lane": "policy",
+      "col": 4,
+      "type": "backend",
+      "label": "保存审计与回执",
+      "sublabel": "关联身份、决策和结果",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "intake",
+      "from": "request",
+      "to": "authenticate",
+      "role": "main"
+    },
+    {
+      "id": "identity",
+      "from": "authenticate",
+      "to": "membership",
+      "role": "main"
+    },
+    {
+      "id": "scope",
+      "from": "membership",
+      "to": "delegate",
+      "role": "main",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          195,
+          367
+        ],
+        [
+          195,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "propose",
+      "from": "delegate",
+      "to": "candidate",
+      "role": "main",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "authorize",
+      "from": "candidate",
+      "to": "recheck",
+      "role": "main",
+      "variant": "security"
+    },
+    {
+      "id": "deny",
+      "from": "recheck",
+      "to": "reject",
+      "role": "error",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "bottom",
+      "via": [
+        [
+          300,
+          426
+        ],
+        [
+          625,
+          426
+        ]
+      ]
+    },
+    {
+      "id": "approve",
+      "from": "recheck",
+      "to": "consent",
+      "role": "main",
+      "variant": "security",
+      "fromSide": "right",
+      "toSide": "left",
+      "via": [
+        [
+          410,
+          367
+        ],
+        [
+          410,
+          119
+        ]
+      ]
+    },
+    {
+      "id": "execute",
+      "from": "consent",
+      "to": "scoped",
+      "role": "main",
+      "variant": "emphasis"
+    },
+    {
+      "id": "record",
+      "from": "scoped",
+      "to": "receipt",
+      "role": "main"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "模型提出候选",
+      "items": [
+        "模型输出不授予权限",
+        "身份与租户来自服务端"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "执行前重新决策",
+      "items": [
+        "审批不能覆盖无权访问",
+        "排队、恢复后检查撤权"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "范围贯穿整条链路",
+      "items": [
+        "检索、Memory 与缓存隔离",
+        "数据库条件约束实际读写"
+      ]
+    }
+  ]
+}
