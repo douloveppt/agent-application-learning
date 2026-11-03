@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "企业 Agent：预算准入与模型路由",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1390,
+      550
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "硬门槛先行",
+      "items": [
+        "先筛选能力与数据政策；换模型不扩大权限",
+        "准入失败则部分交付、延期或明确拒绝"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "预留不等于收费",
+      "items": [
+        "所有子任务、重试与升级共享总账本",
+        "结算实际用量；未知费用保留待对账"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "未知写入先核实",
+      "items": [
+        "超时或取消不证明外部操作未发生",
+        "不能通过换模型再次提交原业务动作"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "request_contract",
+      "type": "frontend",
+      "label": "接收任务合同",
+      "sublabel": "身份 · 质量 · 剩余期限",
+      "pos": [
+        35,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "eligible_models",
+      "type": "security",
+      "label": "筛选合规模型",
+      "sublabel": "能力与数据政策是硬门槛",
+      "pos": [
+        260,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "reserve_resources",
+      "type": "database",
+      "label": "原子预留预算",
+      "sublabel": "共享总账 · 并发配额准入",
+      "pos": [
+        485,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "model_execute",
+      "type": "cloud",
+      "label": "选择模型并执行",
+      "sublabel": "带期限派发 · 记录尝试",
+      "pos": [
+        710,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "result_check",
+      "type": "backend",
+      "label": "检查证据与质量",
+      "sublabel": "确定性 · 任务合同覆盖",
+      "pos": [
+        935,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "deliver_result",
+      "type": "frontend",
+      "label": "交付合格结果",
+      "sublabel": "保存证据 · 按用量结算",
+      "pos": [
+        1160,
+        120
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "bounded_escalation",
+      "type": "messagebus",
+      "label": "受限升级申请",
+      "sublabel": "仍有资源才重新准入",
+      "pos": [
+        485,
+        350
+      ],
+      "size": [
+        170,
+        70
+      ]
+    },
+    {
+      "id": "reconcile_write",
+      "type": "security",
+      "label": "核实未知写入",
+      "sublabel": "按原操作身份查询与对账",
+      "pos": [
+        935,
+        350
+      ],
+      "size": [
+        170,
+        70
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "contract_filter",
+      "from": "request_contract",
+      "to": "eligible_models",
+      "variant": "emphasis"
+    },
+    {
+      "id": "filter_reserve",
+      "from": "eligible_models",
+      "to": "reserve_resources",
+      "variant": "emphasis"
+    },
+    {
+      "id": "reserve_execute",
+      "from": "reserve_resources",
+      "to": "model_execute",
+      "label": "准入通过",
+      "variant": "emphasis"
+    },
+    {
+      "id": "execute_check",
+      "from": "model_execute",
+      "to": "result_check",
+      "variant": "emphasis"
+    },
+    {
+      "id": "check_deliver",
+      "from": "result_check",
+      "to": "deliver_result",
+      "label": "合格",
+      "variant": "emphasis"
+    },
+    {
+      "id": "check_escalate",
+      "from": "result_check",
+      "to": "bounded_escalation",
+      "label": "只读质量不足",
+      "variant": "dashed"
+    },
+    {
+      "id": "escalate_reserve",
+      "from": "bounded_escalation",
+      "to": "reserve_resources",
+      "label": "重新准入",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "bottom"
+    },
+    {
+      "id": "unknown_reconcile",
+      "from": "result_check",
+      "to": "reconcile_write",
+      "label": "写入未知",
+      "variant": "security",
+      "labelAt": [
+        1020,
+        204
+      ]
+    }
+  ]
+}
