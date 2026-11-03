@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "多 Agent 协作：从隔离分析到受控交付",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1380,
+      800
+    ]
+  },
+  "components": [
+    {
+      "id": "intake",
+      "type": "frontend",
+      "label": "接受业务目标",
+      "sublabel": "VPN 排障与工单准备",
+      "pos": [
+        30,
+        300
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "contract",
+      "type": "backend",
+      "label": "签发任务合同",
+      "sublabel": "范围、证据与预算",
+      "pos": [
+        270,
+        300
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "knowledge",
+      "type": "database",
+      "label": "知识库专家",
+      "sublabel": "查有效操作手册",
+      "tag": "隔离上下文 · 只读",
+      "pos": [
+        550,
+        70
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "diagnosis",
+      "type": "backend",
+      "label": "诊断专家",
+      "sublabel": "分析授权设备证据",
+      "tag": "隔离上下文 · 只读",
+      "pos": [
+        550,
+        300
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "policy",
+      "type": "security",
+      "label": "策略专家",
+      "sublabel": "查工单字段与规则",
+      "tag": "隔离上下文 · 只读",
+      "pos": [
+        550,
+        530
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "join",
+      "type": "backend",
+      "label": "校验并汇合结果",
+      "sublabel": "身份、版本、证据完整",
+      "pos": [
+        850,
+        300
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "review",
+      "type": "backend",
+      "label": "审阅证据与分歧",
+      "sublabel": "发现缺项与事实冲突",
+      "tag": "质量检查 ≠ 动作授权",
+      "pos": [
+        1150,
+        300
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "blocked",
+      "type": "security",
+      "label": "阻断并升级",
+      "sublabel": "缺必需结果或证据冲突",
+      "pos": [
+        850,
+        70
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "approval",
+      "type": "frontend",
+      "label": "精确草稿与审批",
+      "sublabel": "用户确认具体写入内容",
+      "pos": [
+        1150,
+        650
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "executor",
+      "type": "messagebus",
+      "label": "受控 Connector",
+      "sublabel": "复核授权后创建工单",
+      "tag": "唯一业务写入入口",
+      "pos": [
+        850,
+        650
+      ],
+      "size": [
+        195,
+        84
+      ]
+    },
+    {
+      "id": "receipt",
+      "type": "external",
+      "label": "核实回执并交付",
+      "sublabel": "真实工单号与未决事项",
+      "pos": [
+        550,
+        650
+      ],
+      "size": [
+        195,
+        84
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "accept",
+      "from": "intake",
+      "to": "contract",
+      "variant": "emphasis"
+    },
+    {
+      "id": "delegate-knowledge",
+      "from": "contract",
+      "to": "knowledge"
+    },
+    {
+      "id": "delegate-diagnosis",
+      "from": "contract",
+      "to": "diagnosis",
+      "variant": "emphasis"
+    },
+    {
+      "id": "delegate-policy",
+      "from": "contract",
+      "to": "policy"
+    },
+    {
+      "id": "knowledge-result",
+      "from": "knowledge",
+      "to": "join"
+    },
+    {
+      "id": "diagnosis-result",
+      "from": "diagnosis",
+      "to": "join",
+      "variant": "emphasis"
+    },
+    {
+      "id": "policy-result",
+      "from": "policy",
+      "to": "join"
+    },
+    {
+      "id": "review-result",
+      "from": "join",
+      "to": "review",
+      "variant": "emphasis"
+    },
+    {
+      "id": "missing-required",
+      "from": "join",
+      "to": "blocked",
+      "label": "必需项不合格",
+      "variant": "security"
+    },
+    {
+      "id": "draft-ready",
+      "from": "review",
+      "to": "approval",
+      "label": "证据足够且无未决冲突",
+      "variant": "emphasis",
+      "labelAt": [
+        1248,
+        520
+      ]
+    },
+    {
+      "id": "approved-execute",
+      "from": "approval",
+      "to": "executor",
+      "label": "有效批准",
+      "variant": "emphasis"
+    },
+    {
+      "id": "verify-receipt",
+      "from": "executor",
+      "to": "receipt",
+      "label": "核实实际业务结果",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "分工的收益",
+      "items": [
+        "三个专家可并行，但各自只读且上下文独立。",
+        "结论必须带可核验来源，不能只传一段摘要。"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "程序控制协作",
+      "items": [
+        "编排层维护身份、版本、全局预算与取消。",
+        "缺少必需结果时阻断；超时不等于没有副作用。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "完成以业务证据为准",
+      "items": [
+        "审阅通过后仍需用户批准准确草稿。",
+        "只有受控执行层获写权限；真实回执决定交付。"
+      ]
+    }
+  ]
+}
