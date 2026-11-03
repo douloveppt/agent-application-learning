@@ -26,6 +26,7 @@
 - **完成界面业务操作**：[第十九章浏览器自动化实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch19-browser-automation)，用真实 Chromium 验证语义定位、具体授权、登录变化、提交断链与只读核实。
 - **验证身份与数据边界**：[第二十章身份权限实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch20-identity)，演练可信身份、跨租户与同租户越权、具体审批、排队撤权，以及检索、Memory 和缓存隔离。
 - **保存人的决定并可靠执行**：[第二十二章 Human-in-the-loop 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch22-hitl)，观察准确修订审批、编辑与拒绝、多人竞争、持久等待，以及丢回执后的只读核实。
+- **承载企业后台任务**：[第二十五章后端与调度实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch25-backend-scheduling)，验证持久接收、并发领取、租约接手、取消竞态与正式产物归属。
 
 ## 两种阅读方式
 
@@ -92,7 +93,7 @@
 | --- | --- |
 | [23 交互体验与流式事件](./23%20%E4%BA%A4%E4%BA%92%E4%BD%93%E9%AA%8C%E4%B8%8E%E6%B5%81%E5%BC%8F%E4%BA%8B%E4%BB%B6.md) | 真实进度、流式事件与取消体验 |
 | [24 多模态与实时语音](./24%20%E5%A4%9A%E6%A8%A1%E6%80%81%E4%B8%8E%E5%AE%9E%E6%97%B6%E8%AF%AD%E9%9F%B3.md) | 素材证据链、媒体适配、实时轮次、打断与设备验收 |
-| [25 后端、调度与存储](./25%20%E5%90%8E%E7%AB%AF%E3%80%81%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%AD%98%E5%82%A8.md) | 任务服务、调度、存储与产物生命周期 |
+| [25 后端、调度与存储](./25%20%E5%90%8E%E7%AB%AF%E3%80%81%E8%B0%83%E5%BA%A6%E4%B8%8E%E5%AD%98%E5%82%A8.md) | 持久接收、租户公平、租约领取、存储分工与产物生命周期 |
 | [26 可靠性与副作用一致性](./26%20%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%B8%8E%E5%89%AF%E4%BD%9C%E7%94%A8%E4%B8%80%E8%87%B4%E6%80%A7.md) | 幂等、未知结果、对账与补偿 |
 
 ### G · 质量、交付与持续改进

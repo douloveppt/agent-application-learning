@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "企业任务后端：接收、调度与产物归属",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1130,
+      680
+    ]
+  },
+  "components": [
+    {
+      "id": "employee",
+      "type": "external",
+      "label": "已鉴权用户",
+      "sublabel": "提交任务 · 查询结果",
+      "pos": [
+        40,
+        90
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "admission",
+      "type": "security",
+      "label": "API 与准入",
+      "sublabel": "身份 · 会话归属 · 配额",
+      "pos": [
+        300,
+        90
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "registry",
+      "type": "database",
+      "label": "SQL 任务登记",
+      "sublabel": "Session · Run · Artifact",
+      "tag": "事实源",
+      "pos": [
+        560,
+        90
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "dispatcher",
+      "type": "backend",
+      "label": "Dispatcher",
+      "sublabel": "扫描可运行任务",
+      "pos": [
+        900,
+        90
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "wakeups",
+      "type": "messagebus",
+      "label": "有界唤醒队列",
+      "sublabel": "仅传 Run 引用",
+      "pos": [
+        900,
+        330
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "workers",
+      "type": "backend",
+      "label": "Worker 池",
+      "sublabel": "claim · lease · epoch",
+      "pos": [
+        560,
+        330
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "workspace",
+      "type": "backend",
+      "label": "临时工作区",
+      "sublabel": "单次 Attempt 隔离",
+      "tag": "可销毁",
+      "pos": [
+        300,
+        330
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "artifacts",
+      "type": "backend",
+      "label": "产物服务",
+      "sublabel": "授权 · 版本 · 引用",
+      "pos": [
+        560,
+        560
+      ],
+      "size": [
+        170,
+        76
+      ]
+    },
+    {
+      "id": "objects",
+      "type": "cloud",
+      "label": "对象存储",
+      "sublabel": "不可变文件内容",
+      "tag": "正式交付",
+      "pos": [
+        900,
+        560
+      ],
+      "size": [
+        170,
+        76
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "submit",
+      "from": "employee",
+      "to": "admission",
+      "label": "请求",
+      "variant": "emphasis"
+    },
+    {
+      "id": "register",
+      "from": "admission",
+      "to": "registry",
+      "label": "事务接收",
+      "variant": "emphasis"
+    },
+    {
+      "id": "scan",
+      "from": "registry",
+      "to": "dispatcher",
+      "label": "待调度记录",
+      "variant": "emphasis"
+    },
+    {
+      "id": "notify",
+      "from": "dispatcher",
+      "to": "wakeups",
+      "label": "投递唤醒",
+      "variant": "dashed",
+      "labelAt": [
+        985,
+        248
+      ]
+    },
+    {
+      "id": "consume",
+      "from": "wakeups",
+      "to": "workers",
+      "label": "消费唤醒",
+      "variant": "emphasis"
+    },
+    {
+      "id": "claim",
+      "from": "workers",
+      "to": "registry",
+      "label": "领取与条件回写",
+      "variant": "security"
+    },
+    {
+      "id": "scratch",
+      "from": "workers",
+      "to": "workspace",
+      "label": "隔离计算"
+    },
+    {
+      "id": "publish",
+      "from": "workers",
+      "to": "artifacts",
+      "label": "提交产物",
+      "labelAt": [
+        645,
+        483
+      ]
+    },
+    {
+      "id": "persist",
+      "from": "artifacts",
+      "to": "objects",
+      "label": "持久保存"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "接收先落库",
+      "items": [
+        "SQL 保存任务事实与归属",
+        "队列丢失可从登记表补发"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "执行须持有效租约",
+      "items": [
+        "重复唤醒不能重复领取",
+        "旧 epoch 不能覆盖新进度"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "交付不依赖工作区",
+      "items": [
+        "会话保存稳定产物引用",
+        "临时目录销毁后仍可下载"
+      ]
+    }
+  ]
+}
