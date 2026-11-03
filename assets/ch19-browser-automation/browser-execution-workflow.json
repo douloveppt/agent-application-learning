@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "企业浏览器自动化：观察、授权与结果核实",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1240,
+      670
+    ]
+  },
+  "components": [
+    {
+      "id": "scope",
+      "type": "external",
+      "label": "1 可信任务",
+      "sublabel": "目标 · 租户 · 动作范围",
+      "pos": [
+        60,
+        70
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "session",
+      "type": "security",
+      "label": "2 隔离会话",
+      "sublabel": "核对当前登录身份",
+      "pos": [
+        360,
+        70
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "observe",
+      "type": "frontend",
+      "label": "3 最新观察",
+      "sublabel": "DOM · 可访问性树 · 截图",
+      "pos": [
+        660,
+        70
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "propose",
+      "type": "backend",
+      "label": "4 动作候选",
+      "sublabel": "目标 · 输入 · 完成条件",
+      "pos": [
+        960,
+        70
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "authorize",
+      "type": "security",
+      "label": "5 预览与授权",
+      "sublabel": "执行前复检身份与状态",
+      "pos": [
+        960,
+        280
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "execute",
+      "type": "backend",
+      "label": "6 执行一次",
+      "sublabel": "限定页面 · 禁止越权",
+      "pos": [
+        660,
+        280
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "verify",
+      "type": "database",
+      "label": "7 只读核实",
+      "sublabel": "回执与业务字段匹配",
+      "pos": [
+        360,
+        280
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "complete",
+      "type": "backend",
+      "label": "8 交付结果",
+      "sublabel": "业务编号与核实证据",
+      "pos": [
+        60,
+        280
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "unknown",
+      "type": "messagebus",
+      "label": "结果未知",
+      "sublabel": "先查询 · 不重放提交",
+      "pos": [
+        660,
+        500
+      ],
+      "size": [
+        200,
+        80
+      ]
+    },
+    {
+      "id": "handoff",
+      "type": "security",
+      "label": "人工接管",
+      "sublabel": "身份失效 · 无法核实",
+      "pos": [
+        960,
+        500
+      ],
+      "size": [
+        200,
+        80
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "scope-session",
+      "from": "scope",
+      "to": "session",
+      "variant": "emphasis"
+    },
+    {
+      "id": "session-observe",
+      "from": "session",
+      "to": "observe",
+      "variant": "emphasis"
+    },
+    {
+      "id": "observe-propose",
+      "from": "observe",
+      "to": "propose",
+      "variant": "emphasis"
+    },
+    {
+      "id": "propose-authorize",
+      "from": "propose",
+      "to": "authorize",
+      "variant": "emphasis"
+    },
+    {
+      "id": "authorize-execute",
+      "from": "authorize",
+      "to": "execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "execute-verify",
+      "from": "execute",
+      "to": "verify",
+      "variant": "emphasis"
+    },
+    {
+      "id": "verify-complete",
+      "from": "verify",
+      "to": "complete",
+      "variant": "emphasis"
+    },
+    {
+      "id": "authorize-observe",
+      "from": "authorize",
+      "to": "observe",
+      "label": "状态变化：重新观察",
+      "variant": "dashed",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "execute-unknown",
+      "from": "execute",
+      "to": "unknown",
+      "label": "回执丢失",
+      "variant": "security",
+      "labelAt": [
+        760,
+        410
+      ]
+    },
+    {
+      "id": "unknown-verify",
+      "from": "unknown",
+      "to": "verify",
+      "label": "关联键查询",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "bottom"
+    },
+    {
+      "id": "unknown-handoff",
+      "from": "unknown",
+      "to": "handoff",
+      "label": "仍无定论",
+      "variant": "security"
+    },
+    {
+      "id": "authorize-handoff",
+      "from": "authorize",
+      "to": "handoff",
+      "label": "身份失效",
+      "variant": "security",
+      "labelAt": [
+        1060,
+        410
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "观察提供事实",
+      "items": [
+        "网页与截图属于不可信数据",
+        "页面内容不能扩大任务权限"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "执行器独立校验",
+      "items": [
+        "审批绑定具体对象、内容和版本",
+        "变化后重新预览并校验授权"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "完成需要证据",
+      "items": [
+        "点击成功不等于提交成功",
+        "未知结果先核实，必要时接管"
+      ]
+    }
+  ]
+}
