@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "trust_note": "This teaching registry is bundled with the host. A production registry needs an authenticated distribution and rollback process.",
+  "skills": {
+    "enterprise-it-triage": {
+      "name": "enterprise-it-triage",
+      "description": "Diagnose an employee's own VPN or email access incident with approved read-only evidence and prepare a ticket draft. Use for internal IT triage; do not submit tickets or modify accounts.",
+      "version": "1.0.0",
+      "root": "skills/enterprise-it-triage",
+      "entrypoint": "SKILL.md",
+      "handler": {
+        "id": "host-builtin:enterprise-it-triage:v1"
+      },
+      "required_tools": [
+        "tickets.list_own",
+        "ticket_drafts.create"
+      ],
+      "modes": {
+        "vpn": {
+          "required_fields": [
+            "symptom"
+          ],
+          "reference": "references/vpn.md"
+        },
+        "email-access": {
+          "required_fields": [
+            "symptom"
+          ],
+          "reference": "references/email-access.md"
+        }
+      },
+      "resources": {
+        "SKILL.md": "4727c3587d10ab64e4a90f940657ef274c8a1e4bc8570678112e146ea3840422",
+        "references/email-access.md": "11dfaf65313cd0367749c542137eca739c4fb5ac5fb2c44f074dce4ec3e965d4",
+        "references/vpn.md": "5d012a5f126d42d9bbaecd6ab6ed46fe201c2c3fd18ce46fefcc9f3547103be4"
+      },
+      "package_digest": "791cd2becdb2fc0f36493f6c5307bfc7f3435977c403d0074621dbe7a46cc14d"
+    }
+  }
+}

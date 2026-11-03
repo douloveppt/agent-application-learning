@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "企业技能：从任务选择到受控交付",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      730,
+      466
+    ],
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "selection",
+      "label": "发现、校验与加载"
+    },
+    {
+      "id": "execution",
+      "label": "前置条件与执行权限"
+    },
+    {
+      "id": "delivery",
+      "label": "异常交接与产物验证"
+    }
+  ],
+  "mainPath": [
+    "request",
+    "select",
+    "verify",
+    "load",
+    "preflight",
+    "artifact"
+  ],
+  "nodes": [
+    {
+      "id": "request",
+      "lane": "selection",
+      "col": 0,
+      "type": "frontend",
+      "label": "任务与身份",
+      "sublabel": "身份来自可信会话"
+    },
+    {
+      "id": "select",
+      "lane": "selection",
+      "col": 1,
+      "type": "backend",
+      "label": "技能选择",
+      "sublabel": "先读名称与描述"
+    },
+    {
+      "id": "verify",
+      "lane": "selection",
+      "col": 3,
+      "type": "security",
+      "label": "来源与版本",
+      "sublabel": "核对可信发布摘要"
+    },
+    {
+      "id": "load",
+      "lane": "selection",
+      "col": 5,
+      "type": "database",
+      "label": "按需加载",
+      "sublabel": "读取正文及所需资源"
+    },
+    {
+      "id": "preflight",
+      "lane": "execution",
+      "col": 5,
+      "type": "security",
+      "label": "前置与权限",
+      "sublabel": "输入／工具／逐次授权"
+    },
+    {
+      "id": "artifact",
+      "lane": "delivery",
+      "col": 5,
+      "type": "backend",
+      "label": "执行与交付",
+      "sublabel": "只读拟稿 · 验证溯源"
+    },
+    {
+      "id": "clarify",
+      "lane": "execution",
+      "col": 1,
+      "type": "messagebus",
+      "label": "澄清候选",
+      "sublabel": "有歧义时等待用户"
+    },
+    {
+      "id": "quarantine",
+      "lane": "execution",
+      "col": 3,
+      "type": "security",
+      "label": "拒绝加载",
+      "sublabel": "篡改或来源不可信"
+    },
+    {
+      "id": "blocked",
+      "lane": "delivery",
+      "col": 3,
+      "type": "messagebus",
+      "label": "停止与交接",
+      "sublabel": "缺输入／工具故障／越权"
+    }
+  ],
+  "edges": [
+    {
+      "id": "request-select",
+      "from": "request",
+      "to": "select",
+      "role": "main"
+    },
+    {
+      "id": "select-verify",
+      "from": "select",
+      "to": "verify",
+      "role": "main"
+    },
+    {
+      "id": "verify-load",
+      "from": "verify",
+      "to": "load",
+      "role": "main"
+    },
+    {
+      "id": "load-preflight",
+      "from": "load",
+      "to": "preflight",
+      "role": "main"
+    },
+    {
+      "id": "preflight-artifact",
+      "from": "preflight",
+      "to": "artifact",
+      "role": "main"
+    },
+    {
+      "id": "select-clarify",
+      "from": "select",
+      "to": "clarify",
+      "role": "branch",
+      "variant": "dashed"
+    },
+    {
+      "id": "verify-quarantine",
+      "from": "verify",
+      "to": "quarantine",
+      "role": "error",
+      "variant": "security"
+    },
+    {
+      "id": "preflight-blocked",
+      "from": "preflight",
+      "to": "blocked",
+      "role": "error",
+      "variant": "security",
+      "via": [
+        [
+          530,
+          243
+        ],
+        [
+          530,
+          367
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "先检查，后执行",
+      "items": [
+        "缺输入需补齐；工具不可用需交接；未授权动作直接拒绝。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "技能不扩大权限",
+      "items": [
+        "逐次动作由可信执行器准入，技能文字不能授予提交权限。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "本章宿主设计",
+      "items": [
+        "版本校验与产物溯源由应用实现，非技能格式自动保证。"
+      ]
+    }
+  ]
+}
