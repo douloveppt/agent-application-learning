@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "外部写入：先确认事实，再决定恢复",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "viewBox": [
+      720,
+      350
+    ]
+  },
+  "lanes": [
+    {
+      "id": "write",
+      "label": "写入：固定合同、持久保存、授权派发"
+    },
+    {
+      "id": "hold",
+      "label": "恢复：按原操作键核实事实"
+    }
+  ],
+  "mainPath": [
+    "persist",
+    "dispatch",
+    "outcome",
+    "success"
+  ],
+  "nodes": [
+    {
+      "id": "persist",
+      "lane": "write",
+      "col": 1,
+      "type": "database",
+      "label": "固定并登记操作",
+      "sublabel": "Operation + Outbox",
+      "width": 160,
+      "tag": "同一本地事务"
+    },
+    {
+      "id": "dispatch",
+      "lane": "write",
+      "col": 3,
+      "type": "backend",
+      "label": "授权有效才派发",
+      "sublabel": "沿用原操作键与参数",
+      "width": 160
+    },
+    {
+      "id": "outcome",
+      "lane": "write",
+      "col": 5,
+      "type": "external",
+      "label": "判断执行事实",
+      "sublabel": "回执与失败证据",
+      "width": 104
+    },
+    {
+      "id": "success",
+      "lane": "hold",
+      "col": 5,
+      "type": "database",
+      "label": "确认成功",
+      "sublabel": "业务 ID 与证据",
+      "width": 104
+    },
+    {
+      "id": "query",
+      "lane": "hold",
+      "col": 3,
+      "type": "backend",
+      "label": "只读查询与对账",
+      "sublabel": "核对原键、归属、参数",
+      "width": 160
+    },
+    {
+      "id": "pending",
+      "lane": "hold",
+      "col": 1,
+      "type": "security",
+      "label": "继续核实或人工接管",
+      "sublabel": "保存责任人与处理期限",
+      "width": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "send-intent",
+      "from": "persist",
+      "to": "dispatch",
+      "role": "main"
+    },
+    {
+      "id": "get-outcome",
+      "from": "dispatch",
+      "to": "outcome",
+      "role": "main"
+    },
+    {
+      "id": "confirmed",
+      "from": "outcome",
+      "to": "success",
+      "label": "可信成功",
+      "role": "main",
+      "variant": "emphasis",
+      "labelAt": [
+        625,
+        191
+      ]
+    },
+    {
+      "id": "safe-retry",
+      "from": "outcome",
+      "to": "dispatch",
+      "label": "未执行且可重试",
+      "role": "branch",
+      "route": "up-channel",
+      "fromSide": "top",
+      "toSide": "top"
+    },
+    {
+      "id": "matched",
+      "from": "query",
+      "to": "success",
+      "label": "回执匹配",
+      "role": "return",
+      "variant": "emphasis"
+    },
+    {
+      "id": "not-found",
+      "from": "query",
+      "to": "pending",
+      "label": "暂未查到或证据冲突",
+      "role": "branch",
+      "variant": "security",
+      "labelAt": [
+        325,
+        283
+      ]
+    },
+    {
+      "id": "unknown-reconcile",
+      "from": "outcome",
+      "to": "query",
+      "label": "结果未知：只读核实",
+      "variant": "security",
+      "role": "error",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "两条恢复边界",
+      "items": [
+        "重试须有未执行证据，并复核同键同参数、授权、预算与去重有效期。",
+        "未知结果暂未查到时继续核实或人工接管，不能仅因超时重发。"
+      ]
+    }
+  ]
+}

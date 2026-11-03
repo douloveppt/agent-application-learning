@@ -27,6 +27,7 @@
 - **验证身份与数据边界**：[第二十章身份权限实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch20-identity)，演练可信身份、跨租户与同租户越权、具体审批、排队撤权，以及检索、Memory 和缓存隔离。
 - **保存人的决定并可靠执行**：[第二十二章 Human-in-the-loop 实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch22-hitl)，观察准确修订审批、编辑与拒绝、多人竞争、持久等待，以及丢回执后的只读核实。
 - **承载企业后台任务**：[第二十五章后端与调度实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch25-backend-scheduling)，验证持久接收、并发领取、租约接手、取消竞态与正式产物归属。
+- **保障外部业务结果**：[第二十六章可靠性与副作用一致性实验](https://github.com/douloveppt/agent-application-learning/tree/main/examples/ch26-reliability)，观察两库事务、操作与消息去重、丢回执恢复，以及未知结果的只读核实。
 
 ## 两种阅读方式
 
