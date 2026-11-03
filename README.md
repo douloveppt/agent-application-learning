@@ -121,7 +121,7 @@ python3.11 -m unittest discover -s examples/ch10-agent-loop -p 'test_*.py' -v
 | 在 GitHub 阅读 | 通过上方目录进入专题，使用页尾上一章／下一章导航；从实践入口打开实验 README |
 | 在 Obsidian 学习 | 克隆或下载仓库，将目录作为知识库打开，再进入 [知识图谱](00%20Agent%20%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0%E5%85%A5%E5%8F%A3.canvas)；使用 Canvas、反向链接和局部关系图浏览关联 |
 
-学习工作台的动态进度表与待办查询需要 Obsidian 核心插件 **Bases、Search**，GitHub 显示查询源码。图谱与进度视图无需第三方插件；学习状态在专题属性中手动维护，实验结果与失败记录保存在对应专题或自己的项目中。
+学习工作台的动态进度表与待办查询需要 Obsidian 核心插件 **Bases、Search**，GitHub 显示查询源码。图谱与进度视图无需第三方插件。学习状态 `status` 统一为 **待学习 / 学习中 / 已学习**，初始值在章节 YAML 中设为 **待学习**；如需在属性栏使用固定选项的下拉选择，启用 [Fileclass](https://github.com/mdelobelle/fileclass)，配置方法见 [工作台说明](92%20%E5%AD%A6%E4%B9%A0%E5%B7%A5%E4%BD%9C%E5%8F%B0%E4%B8%8E%E8%B5%84%E6%96%99.md#%E4%BD%BF%E7%94%A8-status-%E4%B8%8B%E6%8B%89%E9%80%89%E6%8B%A9)。实验结果与失败记录保存在对应专题或自己的项目中。
 
 配套图解位于 [assets](https://github.com/douloveppt/agent-application-learning/tree/main/assets)，实验代码位于 [examples](https://github.com/douloveppt/agent-application-learning/tree/main/examples)。图解用于理解机制，实验用于验证其声明的范围；接入自己的项目时，按章节验收补齐真实接口、环境和业务证据。
 
